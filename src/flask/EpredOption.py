@@ -44,6 +44,27 @@ class InvalidOption(Exception):
     pass
 
 
+def get_area(option_set):
+    """
+    extract the area option in the option_set
+    """
+    return option_set & AREA_MASK
+
+
+def get_duration(option_set):
+    """
+    extract the duration option in the option_set
+    """
+    return option_set & DURATION_MASK
+
+
+def get_time(option_set):
+    """
+    extract the time option in the option_set
+    """
+    return option_set & TIME_MASK
+
+
 def is_valid(option_set):
     """
     whether the option_set is valid, an option_set is invalid iff there are
@@ -51,9 +72,9 @@ def is_valid(option_set):
     :param option_set: the set of ORing several options
     :return: true if the set is an valid set, false if not
     """
-    area = option_set & AREA_MASK
-    duration = option_set & DURATION_MASK
-    timepoint = option_set & TIME_MASK
+    area = get_area(option_set)
+    duration = get_duration(option_set)
+    timepoint = get_time(option_set)
 
     # unknown options
     if area > AREA_VICE_MODEL or duration > DURATION_SEASON or \
