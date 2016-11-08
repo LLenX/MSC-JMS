@@ -91,7 +91,6 @@ $(function () {
             }).done(function (res) {
                 if (res != "fail") {
                     $("#return-revise").removeAttr("disabled");
-                    $("#msg").text("请修改report并回传");
                 }
             }).fail(function (res) {
                 console.log("fail");
@@ -136,10 +135,23 @@ $(function () {
     }
 
     var checkIfAllOptionsAreSelected = function(){
-        var options = $("option:checked");
-        for(var i = 0; i < options.length; i++){
-            if ($(options[i]).text() == "请选择")
-                return false;
+        var first_checkbox_is_checked = $("#first-line .checkbox input").is(":checked");
+        var second_checkbox_is_checked = $("#second-line .checkbox input").is(":checked");
+        if (!first_checkbox_is_checked && !second_checkbox_is_checked)
+            return false;
+        if (first_checkbox_is_checked){
+            var options = $("#first-line option:selected");
+            for(var i = 0; i < options.length; i++){
+                if ($(options[i]).text() == "请选择")
+                    return false;
+            }
+        }
+        if (second_checkbox_is_checked){
+            var options = $("#second-line option:selected");
+            for(var i = 0; i < options.length; i++){
+                if ($(options[i]).text() == "请选择")
+                    return false;
+            }
         }
         return true;
     }
