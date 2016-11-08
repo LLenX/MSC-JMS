@@ -3,7 +3,7 @@ $(function(){
     var target_url_file = "/upload_file";
     var target_url_param = "/upload_param";
 
-    $(".checkbox input").on("click", function(){
+    $(".checkbox input").on("click", function(){//勾选了功能后，后面的选项才可选
         $select = $(this).parent("label").parent("div").next("form");
         if($(this).is(":checked"))
             $select.find("select:first").removeAttr("disabled");
@@ -16,7 +16,7 @@ $(function(){
             
     });
 
-    $("select").on("change", function(){
+    $("select").on("change", function(){//前面的选完了后面才可选
         $selected_option = $(this).find("option:selected");
         if ($selected_option.text() == "请选择"){
             $selects_after = $(this).parent("div").parent("div").nextAll("div").find("select");
@@ -27,7 +27,24 @@ $(function(){
             $select_after.removeAttr("disabled");
         } 
     });
-
+    
+    $(".form-group:nth-of-type(1)".find("select").on("change", function(){
+        $selected_option = $(this).find("option:selected");
+        $text_of_the_selected_option = $selected_option.text();
+        $third_select = $(this).parent("div").parent("div").next().find("select");
+        var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
+        if (){
+            
+        }
+        else if ($text_of_the_selected_option = "分镇街用电量"){
+            appendOptionForThirdSelect("年度");
+        }
+        
+        
+        }
+    });
+        
+    
     $(".form-group:nth-of-type(3)").find("select").on("change", function(){
         $selected_option = $(this).find("option:selected");
         $text_of_the_selected_option = $selected_option.text();
