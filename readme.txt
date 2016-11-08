@@ -1,4 +1,4 @@
-接收参数"aa"可用request.form.get("aa")
+接收参数"aa"可用request.form.get("aa")。
 因为request.form["aa"]只能接受form中的数据，
-如果是别的方式添加的数据就会返回错误400
-接收文件用request.files["file"]
+如果是别的方式添加的数据就会返回错误400。
+接收文件用request.files["file"]。
