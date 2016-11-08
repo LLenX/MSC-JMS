@@ -130,13 +130,29 @@
 		</div>
 
 		<button class = "btn btn-default" id = "choices">提交选择</button>
-		<div id = "revise-form">
+		<div id = "revise-form">		
+		
 			<input type = "file"  name = "revise" id = "return-revise" style = "display:none"></input>
 			<button class="btn btn-default" id = "revise-button">提交修改</button>
 		</div>
-		
-
+		<br/>
+		<form id = "example-form" role="form">
+			<div class="input-group">
+				<span class="input-group-addon">@</span>
+				<input type="text" class="form-control" placeholder="Twitterhandle">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">@</span>
+				<input type="text" class="form-control" placeholder="Twitterhandle">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">@</span>
+				<input type="text" class="form-control" placeholder="Twitterhandle">
+			</div>
+		</form>
 		<div id = "msg"></div>
+
+		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 	</body>
