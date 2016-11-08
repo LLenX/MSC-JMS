@@ -114,8 +114,8 @@ $(function () {
 
     $("#revise-button").click(function(){
         $("#revise-form .input-group").each(function(i, element){
-            var month_index_str = $element.find("span").text().shift();
-            var $input = $element.find("input");
+            var month_index_str = $(element).find("span").text()[0];
+            var $input = $(element).find("input");
             var number_in_month_str = $input.val() != "" ? $input.val() : $input.attr("placeholder");
             var number_in_month = parseFloat(number_in_month_str);
             revise_data[month_index_str] = number_in_month;
