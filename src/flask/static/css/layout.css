@@ -2,3 +2,10 @@
     display: inline-block;
 }
 
+#example-form{
+    margin:10px;
+}
+#example-form .input-group{
+    
+    width:300px;
+}
