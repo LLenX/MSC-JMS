@@ -1,13 +1,15 @@
 from EpredCaller import Caller
-import flask
+import flask, os, os.path
 import EpredOption as EpOp
-import os
 
 jms_server = flask.Flask(__name__)
 
-jms_server.config['INPUT_DATA_DIR'] = 'input_data/'
-jms_server.config['OUTPUT_DATA_DIR'] = 'output_data/'
-jms_server.config['JAR_EXECUTABLE_DIR'] = 'epred_wrapper/'
+jms_server.config['INPUT_DATA_DIR'] = os.path.join(jms_server.root_path,
+                                                   'input_data/')
+jms_server.config['OUTPUT_DATA_DIR'] = os.path.join(jms_server.root_path,
+                                                    'output_data/')
+jms_server.config['JAR_EXECUTABLE_DIR'] = os.path.join(jms_server.root_path,
+                                                       'epred_wrapper/xxx.jar')
 
 
 @jms_server.route('/')
@@ -18,6 +20,7 @@ def index():
 def _get_option_from_form_value(area_str, duration_str, time_str):
     form_option_map = {
         '请选择': 0,
+        '全年': 0,
         '全社会用电量': EpOp.AREA_ALL,
         '分镇街用电量': EpOp.AREA_TOWN,
         '副模型': EpOp.AREA_VICE_MODEL,
@@ -43,7 +46,7 @@ def do_prediction():
     caller = Caller(jms_server.config['JAR_EXECUTABLE_DIR'],
                     jms_server.config['INPUT_DATA_DIR'],
                     jms_server.config['OUTPUT_DATA_DIR'])
-    if flask.request.form.get('00') == 'true': # 00 predict
+    if flask.request.form.get('00') == 'true':  # 00 predict
         options = _get_option_from_form_value(flask.request.form['01'],
                                               flask.request.form['03'],
                                               flask.request.form['04'])
@@ -66,8 +69,10 @@ def do_prediction():
 
 
 def start_r_server():
-    os.system('Rscript -e " library(Rserve);Rserve()"')
+    os.system('killall Rserve')
+    os.system('Rscript -e " library(Rserve);Rserve()" &> /dev/null')
+
 
 if __name__ == '__main__':
-    start_r_server()
+    # start_r_server()
     jms_server.run(debug=True)
