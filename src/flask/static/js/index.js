@@ -26,23 +26,8 @@ $(function () {
             $select_after.removeAttr("disabled");
         }
     });
-    $("#first-line .form-group:nth-of-type(1)").find("select").on("change", function () {//第一行第一个form-group决定第三个的选项的内容
-        $selected_option = $(this).find("option:selected");
-        $text_of_the_selected_option = $selected_option.text();
-        $third_select = $(this).parent("div").parent("div").next().next().find("select");
-        $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
-        $fourth_select.attr("disabled", "disabled");
-        var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
-        if ($text_of_the_selected_option != "请选择")
-            $($third_select).children().remove();
-        appendOptionForThirdSelect("请选择");
-        appendOptionForThirdSelect("年度");
-        appendOptionForThirdSelect("半年度");
-        appendOptionForThirdSelect("季度");
 
-    });
-
-    $("#second-line .form-group:nth-of-type(1)").find("select").on("change", function () {//第二行第一个form-group决定第三个的选项的内容
+    $(".form-group:nth-of-type(1)").find("select").on("change", function () {//第一个form-group决定第三个的选项的内容
         $selected_option = $(this).find("option:selected");
         $text_of_the_selected_option = $selected_option.text();
         $third_select = $(this).parent("div").parent("div").next().next().find("select");
@@ -96,55 +81,42 @@ $(function () {
     $("#choices").click(function () {//提交params
         var choices = {};
         appendChoicesToObjectChoices(choices);
-
-        $.ajax({
-            type: "post",
-            url: target_url_param,
-            data: choices,
-        }).done(function (res) {
-            if (res != "fail") {
-                window.open(res);
-                $("#return-report").removeAttr("disabled");
-                $("#choose-report").removeAttr("disabled");
-                $("#msg").text("请修改report并回传");
-            }
-        }).fail(function (res) {
-            console.log("fail");
-        });
+        var all_options_are_selected = checkIfAllOptionsAreSelected();
+        if (all_options_are_selected){
+            $("#tip").text("正在上传report");
+            $.ajax({
+                type: "post",
+                url: target_url_param,
+                data: choices,
+            }).done(function (res) {
+                if (res != "fail") {
+                    $("#return-revise").removeAttr("disabled");
+                    $("#msg").text("请修改report并回传");
+                }
+            }).fail(function (res) {
+                console.log("fail");
+            });
+            $("#tip").text("执行完上传操作");
+        }
+        else {
+            $("#tip").text("有的选项没有被选择，请检查一遍");
+        }
+        
     });
 
-    $("#choose-report").click(function () {//模拟点击input type="file"
-        $('#report').click();
-    });
-
-    $("#return-report").click(function () {//回传report
-        $.ajax({
-            type: "post",
-            url: target_url_file,
-            data: new FormData($("#report")[0]),
-            processData: false,
-            contentType: false
-        }).done(function (res) {
-            if (res != "fail") {
-                $("#return-report").attr("disabled", "disabled");
-                $("#choose-report").attr("disabled", "disabled");
-                $("#msg").text("report已上传成功");
-            }
-
-        }).fail(function (res) {
-            $("#msg").text("上传report失败");
-        });
-    });
+    $("#revise-button").click(function(){
+        $("#return-revise").click();
+    })
 
 
-    var setAllSelectToDisabled = function () {
+    var setAllSelectToDisabled = function () {//在页面一开始把所有select无效化
         $all_selects = $("select");
         $all_selects.attr("disabled", "disabled");
     }
 
-    var appendOption = function ($select, str) {
+    var appendOption = function ($select, str) {//用于添加一个option
         $option = $("<option></option>").text(str);
-        if ($select.find("option:contains(" + str + ")").length == 0)
+        if ($select.find("option:contains(" + str + ")").length == 0)//不存在才添加
             $select.append($option);
     }
 
@@ -161,6 +133,15 @@ $(function () {
 
         choices["20"] = $("#relation").is(":checked");  //relation
         console.log(choices);
+    }
+
+    var checkIfAllOptionsAreSelected = function(){
+        var options = $("option:checked");
+        for(var i = 0; i < options.length; i++){
+            if ($(options[i]).text() == "请选择")
+                return false;
+        }
+        return true;
     }
 
     setAllSelectToDisabled();
