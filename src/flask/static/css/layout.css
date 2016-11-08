@@ -7,7 +7,7 @@
     padding:10px;
     border:1px black solid;
 }
-#revise-form .form-control{
+#revise-form input.form-control{
 
     width:300px;
 }

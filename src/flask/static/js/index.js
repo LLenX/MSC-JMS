@@ -1,7 +1,9 @@
 $(function () {
     var file_collection = [];
-    var target_url_file = "/upload_file";
     var target_url_param = "/upload_param";
+    var target_url_revise = "/upload_revise";
+    var choices = {};
+    var revise_data = {};
 
     $(".checkbox input").on("click", function () {//勾选了功能后，后面的选项才可选
         $select = $(this).parent("label").parent("div").next("form");
@@ -79,7 +81,7 @@ $(function () {
 
 
     $("#choices").click(function () {//提交params
-        var choices = {};
+        choices = {};
         appendChoicesToObjectChoices(choices);
         var all_options_are_selected = checkIfAllOptionsAreSelected();
         if (all_options_are_selected){
@@ -111,9 +113,26 @@ $(function () {
     });
 
     $("#revise-button").click(function(){
-        $("#return-revise").click();
-    })
-
+        $("#revise-form .input-group").each(function(i, element){
+            var month_index_str = $element.find("span").text().shift();
+            var $input = $element.find("input");
+            var number_in_month_str = $input.val() != "" ? $input.val() : $input.attr("placeholder");
+            var number_in_month = parseFloat(number_in_month_str);
+            revise_data[month_index_str] = number_in_month;
+        });
+        $.ajax({
+                type: "post",
+                url: target_url_revise,
+                data: revise_data,
+            }).done(function (res) {
+                if (res != "fail") {
+                    $("#revise").hide();
+                    $("#tip").text("已提交修改");
+                }
+            }).fail(function (res) {
+                console.log("fail");
+            });
+    });
 
     var setAllSelectToDisabled = function () {//在页面一开始把所有select无效化
         $all_selects = $("select");
