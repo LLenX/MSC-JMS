@@ -62,7 +62,7 @@ def do_prediction():
         if year != '请选择':
             caller.check_precision(year, options)
 
-    if flask.request.form.get('20'):
+    if flask.request.form.get('20') == 'true':
         caller.associativity_analysis()
 
     return 'ok'
