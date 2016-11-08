@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
 import com.stardust.function.function;
 
 import fix.FileTool;
@@ -22,63 +23,35 @@ import Epred.EPredMain;
  * @author Stardust
  *
  *
- *          参数说明: 
- *          ***注意：所有文件夹路径必须以/结束
- *          		输出文件夹的文件夹结构将会被自动创建
- *          		参数之间不分顺序
- *          		重复为相同选项指定参数时，后面的参数会覆盖前面的
- *          		多余参数会被忽略
- *          
- *         	-i 输入文件夹总路径(也即'数据'文件夹路径)
- *          -o 输出文件夹总路径(也即'结果'文件夹路径) 
- *          -l 日志文件保存路径（默认为输出文件夹下log.txt)
- *          ========== 以下没有卵用=========
- *             以下参数若不指定，将为上述总路径的某个子文件夹；若指定，将会覆盖总路径的设定。
- *             具体参数意义参见原程序相关材料。
- * 			   -result 默认输出路径 下 Result/
- * 			   -report 默认输出路径 下 Report/
- * 			   -origin-data 默认输入路径 
- * 			   -data4r 默认输出路径 下 Data4r/
- * 			   -rfile 默认输入路径 下 Rfile/
- *             -model 默认输入路径 下 Model/
- *          ============== 以上 ============
- *          
- *          预测：
- *          -p-area
- *          	all 全社会
- *          	town 分城镇
- *          -p-year 年份
- *          -p-duration 时间跨度 
- *          	annual 年度
- *          	semi-annual 半年度
- *          	quarter 季度
- *          -p-which 年度时该选项被忽略
- *          		 半年度时0为上半年，1为下半年
- *          		 季度时1~4为1~4季度
- *         
- *          精度检验：
- *          -c-area
- *          	all 全社会
- *          	town 分城镇
- *          	vice-model 副模型
- *          -c-duration 同上
- *          -c-which 同上
- *          
- *          关联性分析：
- *          -a
- *          
- *          其他选项：
- *          -rm 自动清空结果文件夹下所有文件（不包括文件夹）
- *          
- *          示例
- *             java -jar xxx.jar -i e:/data/ -o e:/output/ -p-area all -p-year 2016 -p-duration quarter -p-which 2
- *          
+ *         参数说明: ***注意：所有文件夹路径必须以/结束 输出文件夹的文件夹结构将会被自动创建 参数之间不分顺序
+ *         重复为相同选项指定参数时，后面的参数会覆盖前面的 多余参数会被忽略
+ * 
+ *         -i 输入文件夹总路径(也即'数据'文件夹路径) -o 输出文件夹总路径(也即'结果'文件夹路径) -l
+ *         日志文件保存路径（默认为输出文件夹下log.txt) ========== 以下没有卵用=========
+ *         以下参数若不指定，将为上述总路径的某个子文件夹；若指定，将会覆盖总路径的设定。 具体参数意义参见原程序相关材料。 -result
+ *         默认输出路径 下 Result/ -report 默认输出路径 下 Report/ -origin-data 默认输入路径 -data4r
+ *         默认输出路径 下 Data4r/ -rfile 默认输入路径 下 Rfile/ -model 默认输入路径 下 Model/
+ *         ============== 以上 ============
+ * 
+ *         预测： -p-area all 全社会 town 分城镇 -p-year 年份 -p-duration 时间跨度 annual 年度
+ *         semi-annual 半年度 quarter 季度 -p-which 年度时该选项被忽略 半年度时0为上半年，1为下半年
+ *         季度时1~4为1~4季度
+ * 
+ *         精度检验： -c-area all 全社会 town 分城镇 vice-model 副模型 -c-duration 同上 -c-which
+ *         同上
+ * 
+ *         关联性分析： -a
+ * 
+ *         其他选项： -rm 自动清空结果文件夹下所有文件（不包括文件夹） -rr 自动重启R服务
+ * 
+ *         示例 java -jar xxx.jar -i e:/data/ -o e:/output/ -p-area all -p-year
+ *         2016 -p-duration quarter -p-which 2
+ * 
  * 
  * 
  * 
  *         -
  */
-
 
 public class Wrapper {
 
@@ -92,19 +65,24 @@ public class Wrapper {
 			reader.setParameterNumber("rm", 0);
 			Context context = new Context();
 			boolean removeAllFiles = false;
+			boolean restartRserver = false;
 			while (reader.hasMoreArgument()) {
 				Argument arg = reader.read();
-				if(arg.option.equals("rm"))
+				if (arg.option.equals("rm"))
 					removeAllFiles = true;
-				else if (arg.parameters == null || arg.parameters.length == 0 || !context.setFieldIfExists(arg.option, arg.parameters[0])) {
+				else if (arg.option.equals("rr")) {
+					restartRserver = true;
+				} else if (arg.parameters == null || arg.parameters.length == 0 || !context.setFieldIfExists(arg.option, arg.parameters[0])) {
 					TaskFactory.addArugment(arg);
-				} 
+				}
 			}
 			context.fillDefaultValue();
 			logPrintStream.setLogPath(context.l);
 			ensureOutputFolder(context);
-			if(removeAllFiles)
+			if (removeAllFiles)
 				FileTool.clearFolders(context.result, context.report, context.data4r, context.o);
+			if (restartRserver)
+				restartRserver();
 			EPredMain ePredMain = new EPredMain(context.result, context.report, context.origin_data, context.data4r, context.rfile, context.model);
 			int failCount = TaskFactory.executeAll(ePredMain);
 			System.out.println("failCount=" + failCount);
@@ -116,12 +94,10 @@ public class Wrapper {
 			System.exit(-1);
 		}
 
-		
 	}
 
-
 	private static void ensureOutputFolder(Context context) {
-		FileTool.ensureSubFolders(context.result, "Credit", "VARAna");
+		FileTool.ensureSubFolders(context.result, "Credit", "VarAna");
 		FileTool.ensureSubFolders(context.result + "PCheck/", "all", "town", "var");
 		FileTool.ensureSubFolders(context.result + "Pred/", "all", "town");
 		FileTool.ensureSubFolders(context.report, "Analysis/", "Check", "Pred");
@@ -130,6 +106,14 @@ public class Wrapper {
 		FileTool.ensurePathFolder(context.data4r + "credit_assessment/");
 	}
 
+	private static void restartRserver() {
+		try {
+			Runtime.getRuntime().exec("taskkill /f /t /im Rserve.exe");
+			Runtime.getRuntime().exec("Rscript -e \" library(Rserve);Rserve()\"");
+		} catch (IOException e) {
+			throw new RuntimeException("启动R服务失败" , e);
+		}
+	}
 
 	@SuppressWarnings("unused")
 	public static class Context {
@@ -172,12 +156,11 @@ public class Wrapper {
 			});
 			fieldSetter.setDefaultValue("l", new function<String>() {
 				String getDefaltValue() {
-					return (o != null ? o : "" ) + "log.txt";
+					return (o != null ? o : "") + "log.txt";
 				}
 			});
 		}
 
-	
 		public boolean setFieldIfExists(String fieldName, String value) {
 			return fieldSetter.setFieldIfExists(fieldName, value);
 		}
@@ -205,7 +188,7 @@ public class Wrapper {
 
 		public String getParamter(String optionName) {
 			String param = paramters.get(optionName);
-			if(param == null)
+			if (param == null)
 				throw new IllegalArgumentException("缺少选项:" + optionName);
 			return param;
 		}
@@ -227,7 +210,7 @@ public class Wrapper {
 				boolean isAreaAll = getParamter("p-area").equals("all");
 				switch (getParamter("p-duration")) {
 				case "annual":
-					if (!(isAreaAll ? ePredMain.a_Y_pred(getParamterInt("p-year")) :  ePredMain.t_Y_pred(getParamterInt("p-year"))))
+					if (!(isAreaAll ? ePredMain.a_Y_pred(getParamterInt("p-year")) : ePredMain.t_Y_pred(getParamterInt("p-year"))))
 						return false;
 					break;
 				case "semi-annual":
@@ -250,13 +233,13 @@ public class Wrapper {
 
 			@Override
 			public boolean execute(EPredMain ePredMain) throws IOException {
-				if(getParamter("c-area").equals("vice-model")){
+				if (getParamter("c-area").equals("vice-model")) {
 					return ePredMain.var_Check(getParamterInt("c-year"));
 				}
 				boolean isAreaAll = getParamter("c-area").equals("all");
 				switch (getParamter("c-duration")) {
 				case "annual":
-					if (!(isAreaAll ? ePredMain.a_Y_Check(getParamterInt("c-year")) :  ePredMain.t_Y_Check(getParamterInt("c-year"))))
+					if (!(isAreaAll ? ePredMain.a_Y_Check(getParamterInt("c-year")) : ePredMain.t_Y_Check(getParamterInt("c-year"))))
 						return false;
 					break;
 				case "semi-annual":
@@ -415,7 +398,7 @@ public class Wrapper {
 				Field field = target.getClass().getDeclaredField(fieldName);
 				set(field, value);
 				return true;
-			} catch(NoSuchFieldException e){
+			} catch (NoSuchFieldException e) {
 				return false;
 			} catch (Exception e) {
 				throw new RuntimeException("Wrapper开发者的锅", e);
@@ -465,7 +448,7 @@ public class Wrapper {
 			try {
 				FileTool.ensurePathFolder(logPath);
 				File file = new File(logPath);
-				if(!file.exists())
+				if (!file.exists())
 					file.createNewFile();
 				FileOutputStream fos = new FileOutputStream(logPath, true);
 				fos.write(logBuffer.toString().getBytes());
@@ -478,6 +461,6 @@ public class Wrapper {
 				whoCares.printStackTrace(System.out);
 			}
 		}
-		
+
 	}
 }
