@@ -91,7 +91,6 @@ $(function () {
             }).done(function (res) {
                 if (res != "fail") {
                     $("#return-revise").removeAttr("disabled");
-                    $("#msg").text("请修改report并回传");
                 }
             }).fail(function (res) {
                 console.log("fail");
