@@ -27,25 +27,49 @@ $(function(){
             $select_after.removeAttr("disabled");
         } 
     });
-    
-    $(".form-group:nth-of-type(1)".find("select").on("change", function(){
+     $("#first-line .form-group:nth-of-type(1)").find("select").on("change", function(){//第一行第一个form-group决定第三个的选项的内容
         $selected_option = $(this).find("option:selected");
         $text_of_the_selected_option = $selected_option.text();
-        $third_select = $(this).parent("div").parent("div").next().find("select");
+        $third_select = $(this).parent("div").parent("div").next().next().find("select");
+        $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
+        $fourth_select.attr("disabled", "disabled");
         var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
-        if (){
-            
-        }
-        else if ($text_of_the_selected_option = "分镇街用电量"){
-            appendOptionForThirdSelect("年度");
-        }
-        
-        
-        }
+         if ($text_of_the_selected_option != "请选择")
+            $($third_select).children().remove();
+        appendOptionForThirdSelect("请选择");
+        appendOptionForThirdSelect("年度");
+        appendOptionForThirdSelect("半年度");
+        appendOptionForThirdSelect("季度");
+         
     });
+    
+    $("#second-line .form-group:nth-of-type(1)").find("select").on("change", function(){//第二行第一个form-group决定第三个的选项的内容
+        $selected_option = $(this).find("option:selected");
+        $text_of_the_selected_option = $selected_option.text();
+        $third_select = $(this).parent("div").parent("div").next().next().find("select");
+        $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
+        $fourth_select.attr("disabled", "disabled");
+        var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
+        if ($text_of_the_selected_option != "请选择")
+            $($third_select).children().remove();
+        appendOptionForThirdSelect("请选择");
+        appendOptionForThirdSelect("年度");
+
+        if ($text_of_the_selected_option == "全社会用电量"){
+            appendOptionForThirdSelect("半年度");
+            appendOptionForThirdSelect("季度");
+
+        }
+        else if ($text_of_the_selected_option == "分镇街用电量"){
+            appendOptionForThirdSelect("半年度");
+        }
+        else if ($text_of_the_selected_option == "副模型"){
+            //do nothing
+        }
+        });
         
     
-    $(".form-group:nth-of-type(3)").find("select").on("change", function(){
+    $(".form-group:nth-of-type(3)").find("select").on("change", function(){//选定第三列会确定第四列内容
         $selected_option = $(this).find("option:selected");
         $text_of_the_selected_option = $selected_option.text();
         $fourth_select = $(this).parent("div").parent("div").next().find("select");
@@ -70,7 +94,7 @@ $(function(){
     });
 
 
-    $("#choices").click(function(){
+    $("#choices").click(function(){//提交params
         var choices = {};
         appendChoicesToObjectChoices(choices);
 
@@ -90,11 +114,11 @@ $(function(){
         });
     });
 
-    $("#choose-report").click(function(){
+    $("#choose-report").click(function(){//模拟点击input type="file"
         $('#report').click();
     });
 
-    $("#return-report").click(function(){
+    $("#return-report").click(function(){//回传report
         $.ajax({
             type: "post",
             url: target_url_file,
@@ -121,7 +145,8 @@ $(function(){
 
     var appendOption = function($select, str){
         $option = $("<option></option>").text(str);
-        $select.append($option);
+        if ($select.find("option:contains(" + str +")").length == 0)
+            $select.append($option);
     }
 
     var appendChoicesToObjectChoices= function(choices){
