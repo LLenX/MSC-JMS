@@ -26,23 +26,23 @@ $(function () {
             $select_after.removeAttr("disabled");
         }
     });
-    $("#first-line .form-group:nth-of-type(1)").find("select").on("change", function () {//第一行第一个form-group决定第三个的选项的内容
-        $selected_option = $(this).find("option:selected");
-        $text_of_the_selected_option = $selected_option.text();
-        $third_select = $(this).parent("div").parent("div").next().next().find("select");
-        $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
-        $fourth_select.attr("disabled", "disabled");
-        var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
-        if ($text_of_the_selected_option != "请选择")
-            $($third_select).children().remove();
-        appendOptionForThirdSelect("请选择");
-        appendOptionForThirdSelect("年度");
-        appendOptionForThirdSelect("半年度");
-        appendOptionForThirdSelect("季度");
+    // $("#first-line .form-group:nth-of-type(1)").find("select").on("change", function () {//第一行第一个form-group决定第三个的选项的内容
+    //     $selected_option = $(this).find("option:selected");
+    //     $text_of_the_selected_option = $selected_option.text();
+    //     $third_select = $(this).parent("div").parent("div").next().next().find("select");
+    //     $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
+    //     $fourth_select.attr("disabled", "disabled");
+    //     var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
+    //     if ($text_of_the_selected_option != "请选择")
+    //         $($third_select).children().remove();
+    //     appendOptionForThirdSelect("请选择");
+    //     appendOptionForThirdSelect("年度");
+    //     appendOptionForThirdSelect("半年度");
+    //     appendOptionForThirdSelect("季度");
 
-    });
+    // });
 
-    $("#second-line .form-group:nth-of-type(1)").find("select").on("change", function () {//第二行第一个form-group决定第三个的选项的内容
+    $(".form-group:nth-of-type(1)").find("select").on("change", function () {//第一个form-group决定第三个的选项的内容
         $selected_option = $(this).find("option:selected");
         $text_of_the_selected_option = $selected_option.text();
         $third_select = $(this).parent("div").parent("div").next().next().find("select");
