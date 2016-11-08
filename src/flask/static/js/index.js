@@ -96,21 +96,29 @@ $(function () {
     $("#choices").click(function () {//提交params
         var choices = {};
         appendChoicesToObjectChoices(choices);
-
-        $.ajax({
-            type: "post",
-            url: target_url_param,
-            data: choices,
-        }).done(function (res) {
-            if (res != "fail") {
-                window.open(res);
-                $("#return-report").removeAttr("disabled");
-                $("#choose-report").removeAttr("disabled");
-                $("#msg").text("请修改report并回传");
-            }
-        }).fail(function (res) {
-            console.log("fail");
-        });
+        var all_options_are_selected = checkIfAllOptionsAreSelected();
+        if (all_options_are_selected){
+            $("#tip").text("正在上传report");
+            $.ajax({
+                type: "post",
+                url: target_url_param,
+                data: choices,
+            }).done(function (res) {
+                if (res != "fail") {
+                    window.open(res);
+                    $("#return-report").removeAttr("disabled");
+                    $("#choose-report").removeAttr("disabled");
+                    $("#msg").text("请修改report并回传");
+                }
+            }).fail(function (res) {
+                console.log("fail");
+            });
+            $("#tip").text("执行完上传操作");
+        }
+        else {
+            $("#tip").text("有的选项没有被选择，请检查一遍");
+        }
+        
     });
 
     $("#choose-report").click(function () {//模拟点击input type="file"
@@ -161,6 +169,15 @@ $(function () {
 
         choices["20"] = $("#relation").is(":checked");  //relation
         console.log(choices);
+    }
+
+    var checkIfAllOptionsAreSelected = function(){
+        var options = $("option:checked");
+        for(var i = 0; i < options.length; i++){
+            if ($(options[i]).text() == "请选择")
+                return false;
+        }
+        return true;
     }
 
     setAllSelectToDisabled();
