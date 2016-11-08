@@ -95,7 +95,7 @@ $(function () {
                     console.log("upload ok");
                     //res = JSON.parse(res);
                     $("#return-revise").removeAttr("disabled");
-
+                    $("#revise").show();
                     res = [];
                     res["1"] = 33333.3334;
                     res["2"] = 33333.3334;
@@ -201,6 +201,6 @@ $(function () {
                 }
             }
         };
-
+    $("#revise").hide();
     setAllSelectToDisabled();
 })
