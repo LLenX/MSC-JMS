@@ -121,7 +121,7 @@ public class Wrapper {
     }
 
     private static void ensureOutputFolder(Context context) {
-        FileTool.ensureSubFolders(context.result, "Credit", "VARAna");
+        FileTool.ensureSubFolders(context.result, "Credit", "VarAna");
         FileTool.ensureSubFolders(context.result + "PCheck/", "all", "town", "var");
         FileTool.ensureSubFolders(context.result + "Pred/", "all", "town");
         FileTool.ensureSubFolders(context.report, "Analysis/", "Check", "Pred");

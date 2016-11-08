@@ -144,7 +144,9 @@ public class EPredMain {
 		System.out.println("Electric Prediction System is now working.");
 		String rserveadd = Rfile_Add+"lib.r";
 		//启动Rserve后台
+		/*
 		Runtime run = Runtime.getRuntime();
+		// XXX delete restart rserver
 		try{
 //			String cmds ="Rscript \""+rserveadd+"\"";
 			String cmds ="Rscript -e \" library(Rserve);Rserve()\"";
@@ -158,7 +160,7 @@ public class EPredMain {
 			// TODO: handle exception
 			e.printStackTrace();
 			debugger.Rserve_err();
-		}
+		}*/
 		
 		//各模块实例构造
 		
