@@ -2,10 +2,12 @@
     display: inline-block;
 }
 
-#example-form{
+#revise{
     margin:10px;
+    padding:10px;
+    border:1px black solid;
 }
-#example-form .input-group{
-    
+#revise-form .form-control{
+
     width:300px;
 }

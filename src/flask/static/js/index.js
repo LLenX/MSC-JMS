@@ -90,7 +90,14 @@ $(function () {
                 data: choices,
             }).done(function (res) {
                 if (res != "fail") {
+                    console.log("upload ok");
+                    //res = JSON.parse(res);
                     $("#return-revise").removeAttr("disabled");
+
+                    res = [];
+                    res["1"] = 33333.3334;
+                    res["2"] = 33333.3334;
+                    appendInputGroup(res);
                 }
             }).fail(function (res) {
                 console.log("fail");
@@ -154,7 +161,27 @@ $(function () {
             }
         }
         return true;
-    }
+    };
+
+    var appendInputGroup = function(res){
+            var $revise_form = $("#revise-form");
+            for(var i = 1; i <= 12; i++){
+                if (res[i.toString()] != undefined){
+                    var $input_group = $("<div></div>").addClass("input-group");
+                    var $span = $("<span></span>")
+                                .addClass("input-group-addon")
+                                .text(i + "月");
+                    var $input = $("<input></input>")
+                                .attr({
+                                    "class" : "form-control",
+                                    "type" : "text",
+                                    "placeholder" : res[i.toString()]
+                                });
+                    $input_group.append($span).append($input);
+                    $revise_form.append($input_group);
+                }
+            }
+        };
 
     setAllSelectToDisabled();
 })
