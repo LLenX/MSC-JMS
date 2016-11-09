@@ -55,6 +55,8 @@ class Caller:
         self._input_data_path = input_data_path
         self._output_data_path = output_data_path
 
+        self.clear_output_folder()
+
     def predict(self, year, option_set):
         """
         invoke the predict functionality of epred
@@ -62,11 +64,10 @@ class Caller:
         :param option_set: the set of options contains area, duration and the time point
         :return: the exit status of java wrapper
         """
+
         if not EpOp.is_valid(option_set) or EpOp.get_area(
                 option_set) == EpOp.AREA_VICE_MODEL:
             raise EpOp.InvalidOption("Invalid Option when predicting")
-
-        self.clear_output_folder()
 
         area, duration, timepoint = self._translate_option(option_set)
 
@@ -82,10 +83,9 @@ class Caller:
         :param option_set: the set of options contains area, duration and the time point
         :return: the exit status of java wrapper
         """
+
         if not EpOp.is_valid(option_set):
             raise EpOp.InvalidOption("Invalid Option when checking precision")
-
-        self.clear_output_folder()
 
         area, duration, timepoint = self._translate_option(option_set)
 
@@ -101,7 +101,7 @@ class Caller:
         invoke associativity analysis functionality of epred
         :return: the exit status of java wrapper
         """
-        self.clear_output_folder()
+        # self.clear_output_folder()
         return self._invoke("-a")
 
     def clear_output_folder(self):
