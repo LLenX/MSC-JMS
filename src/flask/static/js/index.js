@@ -190,7 +190,6 @@ $(function () {
 	var uploadParam = function(){
 		//上传choices, choices存有各选项的选择
 		//成功就使"提交修改"按钮可点击,
-		//		让修改列表显现,
 		//		添加一个可供下载的链接
 		//失败就在控制台显示"fail"
 		$("#tip").text("正在上传report");
@@ -201,7 +200,6 @@ $(function () {
 		}).done(function (res) {
 			if (res != "fail") {
 				$("#return-revise").removeAttr("disabled");
-				$("#revise").show();
 				addDownloadButton();
 			}
 		}).fail(function (res) {
@@ -236,7 +234,7 @@ $(function () {
 		$("<a></a>")
 		.attr({
 			"href"		: target_url_report,
-			"download" 	: "reports.zip"，
+			"download" 	: "reports.zip",
 			"id"		: "download-button"
 		})
 		.text("点击下载report")
