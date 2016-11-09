@@ -1,15 +1,24 @@
 from EpredCaller import Caller
 from Form import Form
+from zipfile import ZipFile
 import flask, os, os.path, sys
 
 jms_server = flask.Flask(__name__)
 
 jms_server.config['INPUT_DATA_DIR'] = os.path.join(
     jms_server.root_path, 'epred/input_data/')
+
 jms_server.config['OUTPUT_FILE_DIR'] = os.path.join(
     jms_server.root_path, 'epred/output_data/')
+
 jms_server.config['JAR_EXECUTABLE_DIR'] = os.path.join(
     jms_server.root_path, 'epred/epred_wrapper/xxx.jar')
+
+jms_server.config['OUTPUT_REPORT_DIR'] = os.path.join(
+    jms_server.config['OUTPUT_FILE_DIR'], 'Report/')
+
+jms_server.config['REPORT_ZIP_DIR'] = os.path.join(
+    jms_server.root_path, 'report/')
 
 
 @jms_server.route('/')
@@ -40,6 +49,12 @@ def do_prediction():
     if form.can_analyze():
         if caller.associativity_analysis() == 0:
             report_subdirs.append('Analysis')
+
+    # with ZipFile(os.path.join(jms_server.config), 'w') as report_zip:
+    #     for subdir in report_subdirs:
+    #         report_dir = os.path.join(
+    #                 jms_server.config['OUTPUT_REPORT_DIR'], subdir)
+
 
     return 'ok'
 
