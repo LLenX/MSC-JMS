@@ -1,6 +1,6 @@
 $(function () {
-	//target_url_param  : 提交参数的url
-	//target_url_revise : 提交专家修改后的数据的url，暂时不需要
+    //target_url_param  : 提交参数的url
+    //target_url_revise : 提交专家修改后的数据的url，暂时不需要
 	//target_url_report : 提交report的url
 	//choices 			: 提交参数时，该对象包含各个选项的选择
 	//revise_data 		: 提交数据修改时，该对象包含各修改后的数据，暂时不需要
@@ -15,7 +15,7 @@ $(function () {
     var file_collection = [];
     var target_url_param = "/upload_param";
     var target_url_revise = "/upload_revise";
-	var target_url_report = "/download_report";
+    var target_url_report = "/download_report";
     var choices = {};
     var revise_data = {};
 
