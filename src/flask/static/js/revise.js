@@ -30,8 +30,8 @@ $(function(){
         //否则在控制台显示"连接失败"
         $.ajax({
             type: "post",
-			url: target_url_revise,
-			data: new FormData(this)
+            url: target_url_revise,
+            data: new FormData(this)
         }).done(function(res){
             if (res != "fail"){
                 $("#revise-button").attr("disabled", "disabled");
