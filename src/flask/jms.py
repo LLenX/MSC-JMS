@@ -32,15 +32,16 @@ def _pack_reports(report_zip, report_subdirs):
     for report_subdir in report_subdirs:
         absolute_report_path = os.path.join(
             jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
-        # only one report per directory
-        absolute_report_path = os.path.join(
-            absolute_report_path, os.listdir(absolute_report_path)[0])
-        print(absolute_report_path)
-        report_zip.write(
-            absolute_report_path, os.path.basename(absolute_report_path))
+        report_names = os.listdir(absolute_report_path)
+        if report_names:
+            # only one report per directory
+            absolute_report_path = os.path.join(
+                absolute_report_path, report_names[0])
+            report_zip.write(
+                absolute_report_path, os.path.basename(absolute_report_path))
 
 
-@jms_server.route('/upload_param', methods=['GET', 'POST'])
+@jms_server.route('/upload_param', methods=['POST'])
 def do_prediction():
     caller = Caller(jms_server.config['JAR_EXECUTABLE_DIR'],
                     jms_server.config['INPUT_DATA_DIR'],
@@ -64,6 +65,12 @@ def do_prediction():
         if caller.associativity_analysis() == 0:
             report_subdirs.append('Analysis')
 
+    return '', 204
+
+
+@jms_server.route('/download_report')
+def download_report():
+    report_subdirs = ['Pred', 'Check', 'Analysis']
     with ZipFile(
             os.path.join(
                 jms_server.config['REPORT_ZIP_DIR'],
