@@ -1,7 +1,9 @@
 $(function () {
     var file_collection = [];
-    var target_url_file = "/upload_file";
     var target_url_param = "/upload_param";
+    var target_url_revise = "/upload_revise";
+    var choices = {};
+    var revise_data = {};
 
     $(".checkbox input").on("click", function () {//勾选了功能后，后面的选项才可选
         $select = $(this).parent("label").parent("div").next("form");
@@ -79,7 +81,7 @@ $(function () {
 
 
     $("#choices").click(function () {//提交params
-        var choices = {};
+        choices = {};
         appendChoicesToObjectChoices(choices);
         var all_options_are_selected = checkIfAllOptionsAreSelected();
         if (all_options_are_selected){
@@ -90,8 +92,14 @@ $(function () {
                 data: choices,
             }).done(function (res) {
                 if (res != "fail") {
+                    console.log("upload ok");
+                    //res = JSON.parse(res);
                     $("#return-revise").removeAttr("disabled");
-                    $("#msg").text("请修改report并回传");
+                    $("#revise").show();
+                    res = [];
+                    res["1"] = 33333.3334;
+                    res["2"] = 33333.3334;
+                    appendInputGroup(res);
                 }
             }).fail(function (res) {
                 console.log("fail");
@@ -105,9 +113,26 @@ $(function () {
     });
 
     $("#revise-button").click(function(){
-        $("#return-revise").click();
-    })
-
+        $("#revise-form .input-group").each(function(i, element){
+            var month_index_str = $(element).find("span").text()[0];
+            var $input = $(element).find("input");
+            var number_in_month_str = $input.val() != "" ? $input.val() : $input.attr("placeholder");
+            var number_in_month = parseFloat(number_in_month_str);
+            revise_data[month_index_str] = number_in_month;
+        });
+        $.ajax({
+                type: "post",
+                url: target_url_revise,
+                data: revise_data,
+            }).done(function (res) {
+                if (res != "fail") {
+                    $("#revise").hide();
+                    $("#tip").text("已提交修改");
+                }
+            }).fail(function (res) {
+                console.log("fail");
+            });
+    });
 
     var setAllSelectToDisabled = function () {//在页面一开始把所有select无效化
         $all_selects = $("select");
@@ -136,13 +161,46 @@ $(function () {
     }
 
     var checkIfAllOptionsAreSelected = function(){
-        var options = $("option:checked");
-        for(var i = 0; i < options.length; i++){
-            if ($(options[i]).text() == "请选择")
-                return false;
+        var first_checkbox_is_checked = $("#first-line .checkbox input").is(":checked");
+        var second_checkbox_is_checked = $("#second-line .checkbox input").is(":checked");
+        if (!first_checkbox_is_checked && !second_checkbox_is_checked)
+            return false;
+        if (first_checkbox_is_checked){
+            var options = $("#first-line option:selected");
+            for(var i = 0; i < options.length; i++){
+                if ($(options[i]).text() == "请选择")
+                    return false;
+            }
+        }
+        if (second_checkbox_is_checked){
+            var options = $("#second-line option:selected");
+            for(var i = 0; i < options.length; i++){
+                if ($(options[i]).text() == "请选择")
+                    return false;
+            }
         }
         return true;
-    }
+    };
 
+    var appendInputGroup = function(res){
+            var $revise_form = $("#revise-form");
+            for(var i = 1; i <= 12; i++){
+                if (res[i.toString()] != undefined){
+                    var $input_group = $("<div></div>").addClass("input-group");
+                    var $span = $("<span></span>")
+                                .addClass("input-group-addon")
+                                .text(i + "月");
+                    var $input = $("<input></input>")
+                                .attr({
+                                    "class" : "form-control",
+                                    "type" : "text",
+                                    "placeholder" : res[i.toString()]
+                                });
+                    $input_group.append($span).append($input);
+                    $revise_form.append($input_group);
+                }
+            }
+        };
+    $("#revise").hide();
     setAllSelectToDisabled();
 })
