@@ -91,6 +91,7 @@ public class Wrapper {
             ArgumentReader reader = new ArgumentReader(args);
             reader.setParameterNumber("a", 0);
             reader.setParameterNumber("rm", 0);
+            reader.setParameterNumber("rr", 0);
             Context context = new Context();
             boolean removeAllFiles = false;
             boolean restartServer = false;
