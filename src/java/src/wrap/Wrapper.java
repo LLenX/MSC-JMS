@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
 import com.stardust.function.function;
 
 import fix.FileTool;
@@ -69,6 +70,7 @@ import Epred.EPredMain;
  *
  *          其他选项：
  *          -rm 自动清空结果文件夹下所有文件（不包括文件夹）
+ *          -rr 自动重启R服务
  *
  *          示例
  *             java -jar xxx.jar -i e:/data/ -o e:/output/ -p-area all -p-year 2016 -p-duration
@@ -89,13 +91,17 @@ public class Wrapper {
             ArgumentReader reader = new ArgumentReader(args);
             reader.setParameterNumber("a", 0);
             reader.setParameterNumber("rm", 0);
+            reader.setParameterNumber("rr", 0);
             Context context = new Context();
             boolean removeAllFiles = false;
+            boolean restartServer = false;
             while (reader.hasMoreArgument()) {
                 Argument arg = reader.read();
                 if (arg.option.equals("rm"))
                     removeAllFiles = true;
-                else if (
+                else if(arg.option.equals("rr")) {
+                	restartServer = true;
+                }else if (
                     arg.parameters == null || arg.parameters.length == 0
                     || !context.setFieldIfExists(arg.option, arg.parameters[0])) {
                     TaskFactory.addArugment(arg);
@@ -106,6 +112,8 @@ public class Wrapper {
             ensureOutputFolder(context);
             if (removeAllFiles)
                 FileTool.clearFolders(context.result, context.report, context.data4r, context.o);
+            if(restartServer)
+            	restartServer();
             EPredMain ePredMain = new EPredMain(
                 context.result, context.report, context.origin_data, context.data4r, context.rfile,
                 context.model);
@@ -120,7 +128,17 @@ public class Wrapper {
         }
     }
 
-    private static void ensureOutputFolder(Context context) {
+    private static void restartServer() {
+		try {
+			Runtime.getRuntime().exec("taskkill /f /t /im Rserve.exe");
+			Runtime.getRuntime().exec("Rscript -e \" library(Rserve);Rserve()\"");
+		} catch (IOException e) {
+			throw new RuntimeException("启动R服务失败" , e);
+		}
+		
+	}
+
+	private static void ensureOutputFolder(Context context) {
         FileTool.ensureSubFolders(context.result, "Credit", "VarAna");
         FileTool.ensureSubFolders(context.result + "PCheck/", "all", "town", "var");
         FileTool.ensureSubFolders(context.result + "Pred/", "all", "town");
