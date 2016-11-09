@@ -1,6 +1,0 @@
-java.lang.IllegalArgumentException: 参数错误。参数数量不足。
-[2016-11-09T19:06:11.032+08:00[Asia/Shanghai]]	at wrap.Wrapper$ArgumentReader.checkReadPos(Wrapper.java:395)
-[2016-11-09T19:06:11.046+08:00[Asia/Shanghai]]	at wrap.Wrapper$ArgumentReader.readString(Wrapper.java:385)
-[2016-11-09T19:06:11.047+08:00[Asia/Shanghai]]	at wrap.Wrapper$ArgumentReader.read(Wrapper.java:375)
-[2016-11-09T19:06:11.047+08:00[Asia/Shanghai]]	at wrap.Wrapper.main(Wrapper.java:98)
-[2016-11-09T19:06:11.047+08:00[Asia/Shanghai]]
