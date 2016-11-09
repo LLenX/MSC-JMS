@@ -20,10 +20,24 @@ jms_server.config['OUTPUT_REPORT_DIR'] = os.path.join(
 jms_server.config['REPORT_ZIP_DIR'] = os.path.join(
     jms_server.root_path, 'report/')
 
+jms_server.config['REPORT_ZIP_NAME'] = 'report.zip'
+
 
 @jms_server.route('/')
 def index():
     return flask.render_template('index.html')
+
+
+def _pack_reports(report_zip, report_subdirs):
+    for report_subdir in report_subdirs:
+        absolute_report_path = os.path.join(
+            jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
+        # only one report per directory
+        absolute_report_path = os.path.join(
+            absolute_report_path, os.listdir(absolute_report_path)[0])
+        print(absolute_report_path)
+        report_zip.write(
+            absolute_report_path, os.path.basename(absolute_report_path))
 
 
 @jms_server.route('/upload_param', methods=['GET', 'POST'])
@@ -50,13 +64,15 @@ def do_prediction():
         if caller.associativity_analysis() == 0:
             report_subdirs.append('Analysis')
 
-    # with ZipFile(os.path.join(jms_server.config), 'w') as report_zip:
-    #     for subdir in report_subdirs:
-    #         report_dir = os.path.join(
-    #                 jms_server.config['OUTPUT_REPORT_DIR'], subdir)
+    with ZipFile(
+            os.path.join(
+                jms_server.config['REPORT_ZIP_DIR'],
+                jms_server.config['REPORT_ZIP_NAME']), 'w') as report_zip:
+        _pack_reports(report_zip, report_subdirs)
 
-
-    return 'ok'
+    return flask.send_from_directory(
+        jms_server.config['REPORT_ZIP_DIR'],
+        jms_server.config['REPORT_ZIP_NAME'])
 
 
 def start_r_server():
