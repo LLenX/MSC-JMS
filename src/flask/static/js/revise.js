@@ -34,10 +34,33 @@ $(function(){
             data: new FormData(this)
         }).done(function(res){
             if (res != "fail"){
-                $("#revise-button").attr("disabled", "disabled");
+                postRevisedDataSucceed();
             }
         }).fail(function(){
             console.log("连接失败");
         })
     }
+
+    var postRevisedDataSucceed = function(){
+        //让"提交修改"按钮不可点击
+        $("#revise-button").attr("disabled", "disabled");
+        addDownloadButton();
+    }
+
+    var addDownloadButton = function(){
+        //添加一个可供下载的链接， 如果已存在就不添加
+        if ($("#download").length > 0)
+            return;
+        $("<a></a>")
+        .attr({
+            "href"		: target_url_report,
+            "download" 	: "reports.zip",
+            "id"		: "download-button"
+        })
+        .text("点击下载report")
+        .click(function(){
+            $(this).remove();
+        })
+        .appendTo("body");
+    };
 })

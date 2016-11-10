@@ -18,101 +18,120 @@ $(function () {
     var target_url_report = "/download_report";
     var choices = {};
     var revise_data = {};
-
-    $(".checkbox input").on("click", function() {
+    var checkboxPrepare = function(){
         //勾选了功能后，该行后面的选项才可选
-        $select = $(this).parent("label").parent("div").next("form");
-        if ($(this).is(":checked"))
-            $select.find("select:first").removeAttr("disabled");
-        else {
-            $the_first_option = $select.find("select").find("option:first");
-            $the_first_option.attr("selected", true);
-            $the_first_option.nextAll("option").attr("selected", false);
-            $select.find("select").attr("disabled", "disabled");
-        }
-    });
+        $(".checkbox input").on("click", function() {
+            $select = $(this).parent("label").parent("div").next("form");
+            if ($(this).is(":checked"))
+                $select.find("select:first").removeAttr("disabled");
+            else {
+                $the_first_option = $select.find("select").find("option:first");
+                $the_first_option.attr("selected", true);
+                $the_first_option.nextAll("option").attr("selected", false);
+                $select.find("select").attr("disabled", "disabled");
+            }
+        });
+    }
+    
+    var selectPrepare = function(){
+        //what does select means : 选择框组
+        //allSelectPrepare       : 每个select都有的行为
+        //firstSelectPrepare     : 每行第一个select都有的行为
+        //thirdSelectPrepare     : 每行第三个select都有的行为
+        allSelectPrepare();
+        firstSelectPrepare();
+        ThirdSelectPrepare();
+    }
 
-    $("select").on("change", function() {
+    var allSelectPrepare = function(){
         //每一行前面的选完了后面才可选
-        $selected_option = $(this).find("option:selected");
-        if ($selected_option.text() == "请选择") {
-            $selects_after = $(this).parent("div").parent("div").nextAll("div").find("select");
-            $selects_after.attr("disabled", "disabled");
-        }
-        else {
-            $select_after = $(this).parent("div").parent("div").next("div").find("select");
-            $select_after.removeAttr("disabled");
-        }
-    });
-
-    $(".form-group:nth-of-type(1)").find("select").on("change", function() {
+        $("select").on("change", function() {
+            $selected_option = $(this).find("option:selected");
+            if ($selected_option.text() == "请选择") {
+                $selects_after = $(this).parent("div").parent("div").nextAll("div").find("select");
+                $selects_after.attr("disabled", "disabled");
+            }
+            else {
+                $select_after = $(this).parent("div").parent("div").next("div").find("select");
+                $select_after.removeAttr("disabled");
+            }
+        });
+    }
+    
+    var firstSelectPrepare = function(){
         //第一个选项确定时,在第三个选项添加相应的option
-        $selected_option = $(this).find("option:selected");
-        $text_of_the_selected_option = $selected_option.text();
-        $third_select = $(this).parent("div").parent("div").next().next().find("select");
-        $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
-        $fourth_select.attr("disabled", "disabled");
-        var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
-        if ($text_of_the_selected_option != "请选择")
-            $($third_select).children().remove();
-        appendOptionForThirdSelect("请选择");
-        appendOptionForThirdSelect("年度");
+        $(".form-group:nth-of-type(1)").find("select").on("change", function() {
+            $selected_option = $(this).find("option:selected");
+            $text_of_the_selected_option = $selected_option.text();
+            $third_select = $(this).parent("div").parent("div").next().next().find("select");
+            $fourth_select = $(this).parent("div").parent("div").next().next().next().find("select");
+            $fourth_select.attr("disabled", "disabled");
+            var appendOptionForThirdSelect = appendOption.bind(window, $third_select);
+            if ($text_of_the_selected_option != "请选择")
+                $($third_select).children().remove();
+                appendOptionForThirdSelect("请选择");
+                appendOptionForThirdSelect("年度");
 
-        if ($text_of_the_selected_option == "全社会用电量") {
-            appendOptionForThirdSelect("半年度");
-            appendOptionForThirdSelect("季度");
+            if ($text_of_the_selected_option == "全社会用电量") {
+                appendOptionForThirdSelect("半年度");
+                appendOptionForThirdSelect("季度");
 
-        }
-        else if ($text_of_the_selected_option == "分镇街用电量") {
-            appendOptionForThirdSelect("半年度");
-        }
-        else if ($text_of_the_selected_option == "副模型") {
-            //不添加option
-        }
-    });
+            }
+            else if ($text_of_the_selected_option == "分镇街用电量") {
+                appendOptionForThirdSelect("半年度");
+            }
+            else if ($text_of_the_selected_option == "副模型") {
+                //不添加option
+            }
+        });
+    }
+    
 
-
-    $(".form-group:nth-of-type(3)").find("select").on("change", function() {
+    var ThirdSelectPrepare = function(){
         //第三个选项选定时,在第四个选项添加相应的option
-        $selected_option = $(this).find("option:selected");
-        $text_of_the_selected_option = $selected_option.text();
-        $fourth_select = $(this).parent("div").parent("div").next().find("select");
-        var appendOptionForFourthSelect = appendOption.bind(window, $fourth_select);
-        if ($text_of_the_selected_option != "请选择")
-            $($fourth_select).children().remove();
-        if ($text_of_the_selected_option == "年度") {
-            appendOptionForFourthSelect("全年");
-        }
-        else if ($text_of_the_selected_option == "半年度") {
-            appendOptionForFourthSelect("请选择");
-            appendOptionForFourthSelect("上半年");
-            appendOptionForFourthSelect("下半年");
-        }
-        else if ($text_of_the_selected_option == "季度") {
-            appendOptionForFourthSelect("请选择");
-            appendOptionForFourthSelect("第一季度");
-            appendOptionForFourthSelect("第二季度");
-            appendOptionForFourthSelect("第三季度");
-            appendOptionForFourthSelect("第四季度");
-        }
-    });
+        $(".form-group:nth-of-type(3)").find("select").on("change", function() {
+            $selected_option = $(this).find("option:selected");
+            $text_of_the_selected_option = $selected_option.text();
+            $fourth_select = $(this).parent("div").parent("div").next().find("select");
+            var appendOptionForFourthSelect = appendOption.bind(window, $fourth_select);
+            if ($text_of_the_selected_option != "请选择")
+                $($fourth_select).children().remove();
+            if ($text_of_the_selected_option == "年度") {
+                appendOptionForFourthSelect("全年");
+            }
+            else if ($text_of_the_selected_option == "半年度") {
+                appendOptionForFourthSelect("请选择");
+                appendOptionForFourthSelect("上半年");
+                appendOptionForFourthSelect("下半年");
+            }
+            else if ($text_of_the_selected_option == "季度") {
+                appendOptionForFourthSelect("请选择");
+                appendOptionForFourthSelect("第一季度");
+                appendOptionForFourthSelect("第二季度");
+                appendOptionForFourthSelect("第三季度");
+                appendOptionForFourthSelect("第四季度");
+            }
+        });
+    }
+    
 
-
-    $("#choices").click(function() {
+    var uploadParamButtonPrepare = function(){
         //"提交选择"被点击时
         //若用户的勾选合法，则上传参数
         //否则提醒用户修改
-        choices = {};
-        appendChoicesToObjectChoices(choices);
-        var all_options_are_selected = checkIfAllOptionsAreSelected();
-        if (all_options_are_selected){
-            uploadParam();
-        }
-        else {
-            $("#tip").text("有的选项没勾选，请检查。checkbox被勾选后，那一行的每项都应被选择");
-        }
-        
-    });
+        $("#choices").click(function() {
+            choices = {};
+            appendChoicesToObjectChoices(choices);
+            var all_options_are_selected = checkIfAllOptionsAreSelected();
+            if (all_options_are_selected){
+                uploadParam();
+            }
+            else {
+                $("#tip").text("有的选项没勾选，请检查。checkbox被勾选后，那一行的每项都应被选择");
+            }
+        });
+    }
+    
 
     $("#revise-button").click(function(){
         //暂时无用
@@ -188,10 +207,11 @@ $(function () {
     };
     
     var uploadParam = function(){
-        //上传choices, choices存有各选项的选择
+        //上传choices, choices存有各选项的选择。
         //成功就使"提交修改"按钮可点击,
-        //		添加一个可供下载的链接
-        //失败就在控制台显示"fail"
+        //		添加一个可供下载的链接,
+        //      打开有修改界面的网页。
+        //失败就在控制台显示"fail"。
         $("#tip").text("正在上传report");
         $.ajax({
             type: "post",
@@ -201,6 +221,7 @@ $(function () {
             if (res != "fail") {
                 $("#return-revise").removeAttr("disabled");
                 addDownloadButton();
+                window.open(target_url_revise);
             }
         }).fail(function (res) {
             console.log("fail");
@@ -245,6 +266,9 @@ $(function () {
     };
     
     
-    $("#revise").hide();
+    $("#revise").hide(); //暂时不需要再此页面有修改界面
+    checkboxPrepare();
+    selectPrepare();
+    uploadParamButtonPrepare();
     setAllSelectToDisabled();
 })
