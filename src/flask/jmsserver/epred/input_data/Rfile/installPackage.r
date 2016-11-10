@@ -1,0 +1,33 @@
+script.dir <- dirname(sys.frame(1)$ofile)
+setwd(script.dir)
+
+#install dse
+install.packages(paste(getwd(),"/RPackage/dse/setRNG_2013.9-1.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/dse/tframe_2015.12-1.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/dse/tfplot_2015.12-1.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/dse/dse_2015.12-1.zip",sep = ''))
+
+#install forecast
+install.packages(paste(getwd(),"/RPackage/forecast/zoo_1.7-13.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/quadprog_1.5-5.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/tseries_0.10-35.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/timeDate_3012.100.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/Rcpp_0.12.6.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/fracdiff_1.4-2.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/colorspace_1.2-6.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/digest_0.6.9.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/gtable_0.2.0.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/stringi_1.1.1.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/magrittr_1.5.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/stringr_1.0.0.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/reshape2_1.4.1.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/plyr_1.8.4.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/RColorBrewer_1.1-2.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/dichromat_2.0-0.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/munsell_0.4.3.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/labeling_0.3.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/scales_0.4.0.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/ggplot2_2.1.0.zip",sep = ''))
+install.packages(paste(getwd(),"/RPackage/forecast/forecast_7.1.zip",sep = ''))
+
+install.packages(paste(getwd(),"/RPackage/Rserve_1.7-3.zip",sep = ''))

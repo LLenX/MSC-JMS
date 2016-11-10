@@ -83,7 +83,7 @@ public class Predictor {
 	
 	public void varpred(int needsmooth)throws REXPMismatchException,REngineException{
 		/*
-		 * VAR 记得要先对数据进行预处理！都提高到十万级别
+		 * Var 记得要先对数据进行预处理！都提高到十万级别
 		 */
 		RConnection rc = new RConnection();
 		try {

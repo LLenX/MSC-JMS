@@ -1,0 +1,28 @@
+dse
+--tfplot
+  --tframe
+--setRNG
+
+Rserve
+
+forecast
+--tseries
+  --zoo
+  --quadprog
+--timeDate
+--Rcpp
+--fracdiff
+--colorspace
+--ggplot2
+  --digest
+  --gtable
+  --reshape2
+    --stringr
+      --stringi
+      --magrittr
+  --scales
+    --plyr
+    --RColorBrewer
+    --dichromat
+    --munsell
+    --labeling
