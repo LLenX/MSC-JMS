@@ -28,17 +28,18 @@ def index():
     return flask.render_template('index.html')
 
 
+def _add_report_to_zip(report_zip, report_subdir):
+    absolute_report_dir = os.path.join(
+        jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
+    report_names = os.listdir(absolute_report_dir)
+    for report_name in report_names:
+        report_path = os.path.join(absolute_report_dir, report_name)
+        report_zip.write(report_path, os.path.basename(report_path))
+
+
 def _pack_reports(report_zip, report_subdirs):
     for report_subdir in report_subdirs:
-        absolute_report_path = os.path.join(
-            jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
-        report_names = os.listdir(absolute_report_path)
-        if report_names:
-            # only one report per directory
-            absolute_report_path = os.path.join(
-                absolute_report_path, report_names[0])
-            report_zip.write(
-                absolute_report_path, os.path.basename(absolute_report_path))
+        _add_report_to_zip(report_zip, report_subdir)
 
 
 @jms_server.route('/upload_param', methods=['POST'])
@@ -49,21 +50,22 @@ def do_prediction():
 
     form = Form(flask.request.form)
 
-    report_subdirs = []
-
     if form.can_predict():
         year, options = form.predict_option()
         if caller.predict(year, options) == 0:
-            report_subdirs.append('Pred')
+            # TODO REFACTOR
+            pass
 
     if form.can_check():
         year, options = form.check_option()
         if caller.check_precision(year, options) == 0:
-            report_subdirs.append('Check')
+            # TODO REFACTOR
+            pass
 
     if form.can_analyze():
         if caller.associativity_analysis() == 0:
-            report_subdirs.append('Analysis')
+            # TODO REFACTOR
+            pass
 
     return '', 204
 

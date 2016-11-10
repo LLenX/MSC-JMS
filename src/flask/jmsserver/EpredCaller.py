@@ -2,7 +2,7 @@
 python side wrapper of jms-epred, take arguments and call java side wrapper
 """
 
-import os
+import os, re
 import jmsserver.EpredOption as EpOp
 
 
@@ -56,7 +56,7 @@ class Caller:
         self._input_data_path = input_data_path
         self._output_data_path = output_data_path
 
-        self.check_output_folder()
+        self._check_output_folder()
         self.clear_output_folder()
 
     def predict(self, year, option_set):
@@ -109,9 +109,36 @@ class Caller:
     def clear_output_folder(self):
         return self._invoke('-rm')
 
-    def check_output_folder(self):
+    def _check_output_folder(self):
         if not os.path.exists(self._output_data_path):
             os.makedirs(self._output_data_path)
+
+    def _raw_log_lines(self):
+        log_path = os.path.join(self._output_data_path, 'log.txt')
+        if not os.path.exists(log_path):
+            return []
+
+        with open(os.path.join(
+                self._output_data_path, 'log.txt'), 'r') as log_file:
+            lines = log_file.readlines()
+
+        return lines
+
+    def get_log(self):
+        """
+        get processed log messages of a operation
+        :return: an list of log messages
+        """
+        lines = self._raw_log_lines()
+        result_lines = []
+        log_pattern = re.compile(r'^\[(.*?)\..*?\]\](.+)$')
+        for line in lines:
+            match_result = log_pattern.match(line)
+            if match_result:
+                result_lines.append('[%s]%s' % (
+                    match_result.group(1), match_result.group(2)))
+
+        return result_lines
 
     def _invoke(self, *args):
         ret_status = 0
