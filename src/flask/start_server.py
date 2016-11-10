@@ -20,12 +20,11 @@ def start_r_server():
 
 def get_port(argv):
     opts, args = gnu_getopt(argv, 'p:h:', ['port=', 'host='])
-    print(opts)
     port, host = None, None
     for opt, value in opts:
-        if opt == 'h' or opt == '--host':
+        if opt == '-h' or opt == '--host':
             host = value
-        elif opt == 'p' or opt == '--port':
+        elif opt == '-p' or opt == '--port':
             port = int(value)
 
     return port, host
