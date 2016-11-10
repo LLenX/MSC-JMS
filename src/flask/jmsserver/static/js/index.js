@@ -226,10 +226,12 @@ $(function () {
             url: target_url_param,
             data: choices,
         }).done(function (res) {
+            res = JSON.parse(res);
             uploadConnectSucceed(res);
         }).fail(function (res) {
             uploadParamConnectFail();
         });
+        $("#choices").removeAttr("disabled");
     }
 
     var appendInputGroup = function(res){
@@ -253,6 +255,7 @@ $(function () {
     };
     var uploadConnectSucceed = function(res){
         //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
+        console.log(res);
         var $error_message = $("#error-message").children().remove();
 
         if (res.predict.success == false){
@@ -286,10 +289,11 @@ $(function () {
         &&  res.check.success
         &&  res.analyze.success)
             uploadParamSucceed();
+        else $("#tip").text("计算失败.");
+        
     }
     var uploadParamSucceed = function(){
         $("#return-revise").removeAttr("disabled");
-        $("#choices").removeAttr("disabled");
         addDownloadButton();
         window.open(target_url_revise);
         $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改。若无弹出可能是窗口被拦截，请解除拦截");
