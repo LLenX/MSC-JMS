@@ -71,6 +71,11 @@ def get_time(option_set):
     """
     return option_set & TIME_MASK
 
+def get_task(option_set):
+    """
+    extract the task in the option_set
+    """
+    return option_set & TASK_MASK
 
 def is_valid(option_set):
     """

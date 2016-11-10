@@ -33,6 +33,26 @@ class Form:
     def __init__(self, form):
         self.form = form
 
+    def get_options(self):
+        """
+        get all options tuple available
+        :return: a list of two tuple specified the option and year, there's no
+        year of the tuple of analyze
+        """
+        option_list = []
+        if self.can_analyze():
+            option_list.append((EpOp.TASK_ANALYZE, None))
+
+        option_tup = self.predict_option()
+        if option_tup:
+            option_list.append(option_tup)
+
+        option_tup = self.check_option()
+        if option_tup:
+            option_list.append(option_tup)
+
+        return option_list
+
     def can_predict(self):
         """
         :return: whether the form request a predict operation
@@ -56,19 +76,28 @@ class Form:
         :return: a 2-tuple, first element is year, second is the option_set
                  None if the form doesn't request to predict
         """
+        if not self.can_predict():
+            return None
+
         options = _get_option_from_form_value(
-            self.form['01'], self.form['03'], self.form['04'])
+            self.form['01'], self.form['03'],
+            self.form['04']) | EpOp.TASK_PREDICT
         year = self.form.get('02')
 
-        return year, options
+        return options, year
 
     def check_option(self):
         """
         :return: a 2-tuple, first element is year, second is the option_set
                  None if the form doesn't request to check
         """
+        if not self.can_check():
+            return None
+
         options = _get_option_from_form_value(
-            self.form['11'], self.form['13'], self.form['14'])
+            self.form['11'], self.form['13'],
+            self.form['14']) | EpOp.TASK_PRECISION_CHECK
+
         year = self.form.get('12')
 
-        return year, options
+        return options, year
