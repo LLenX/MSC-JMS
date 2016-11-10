@@ -192,8 +192,8 @@ $(function () {
         var second_checkbox_is_checked = $("#second-line .checkbox input").is(":checked");
         var third_checkbox_is_checked  = $("#relation").is(":checked");
         if (!first_checkbox_is_checked
-        ||  !second_checkbox_is_checked
-        ||  !third_checkbox_is_checked)
+        &&  !second_checkbox_is_checked
+        &&  !third_checkbox_is_checked)
             return false; 
         if (first_checkbox_is_checked){
             var options = $("#first-line option:selected");
