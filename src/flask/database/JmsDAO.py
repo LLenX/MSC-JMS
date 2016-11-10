@@ -25,6 +25,15 @@ class JmsDAO:
         """
         return JmsDataHelper(option_set, self.db_conn)
 
+    def import_all_input_files(self, folder_path):
+        helper = JmsDataHelper(0, self.db_conn)
+        helper.input_files = {
+            '总用电量': '总用电量.xlsx',
+            '分镇街用电量': '分镇街用电量.xlsx',
+            '宏观数据': '宏观数据.xlsx',
+        }
+        helper.import_input_files(folder_path)
+
     def close(self):
         """
         关闭数据库连接
