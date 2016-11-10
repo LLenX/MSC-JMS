@@ -208,12 +208,13 @@ $(function () {
     
     var uploadParam = function(){
         //上传choices, choices存有各选项的选择。
+        //点击后提交按钮失效，直到服务器相应后才可再点击
         //成功就使"提交修改"按钮可点击,
         //		添加一个可供下载的链接,
         //      打开有修改界面的网页。
         //失败就在控制台显示"fail"。
-        $("#tip").text("正在上传report");
-        console.log(choices);
+        $("#tip").text("正在上传report,请耐心等候");
+        $("#choices").attr("disabled", "disabled");
         $.ajax({
             type: "post",
             url: target_url_param,
@@ -221,13 +222,15 @@ $(function () {
         }).done(function (res) {
             if (res != "fail") {
                 $("#return-revise").removeAttr("disabled");
+                $("#choices").removeAttr("disabled");
                 addDownloadButton();
                 window.open(target_url_revise);
+                $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改");
             }
         }).fail(function (res) {
             console.log("fail");
+            $("#tip").text("与服务器连接出错");
         });
-        $("#tip").text("执行完上传操作");
     }
 
     var appendInputGroup = function(res){
