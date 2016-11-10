@@ -283,13 +283,18 @@ $(function () {
             }
             $analyze_message.appendTo($error_message);
         }
+
+        if (res.predict.success
+        &&  res.check.success
+        &&  res.analyze.success)
+            uploadParamSucceed();
     }
     var uploadParamSucceed = function(){
         $("#return-revise").removeAttr("disabled");
         $("#choices").removeAttr("disabled");
         addDownloadButton();
         window.open(target_url_revise);
-        $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改");
+        $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改。若无弹出可能是窗口被拦截，请解除拦截");
     }
 
     var uploadParamConnectFail = function(){

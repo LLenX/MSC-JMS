@@ -1,13 +1,25 @@
-*{
+
+body{
+    background: linear-gradient(to bottom right, rgb(26,123,210) , rgb(11,65,130));
+    overflow:hidden;
+}
+
+#panel{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:420px;
+    border:2px white solid;
+    overflow:hidden;
+}
+
+.form-group{
     display: inline-block;
+    width:100px;
 }
 
-#revise{
-    margin:10px;
-    padding:10px;
-    border:1px black solid;
-}
-#revise-form input.form-control{
-
-    width:300px;
+div{
+    font-family: 微软雅黑;
+    font-size: bold;
+    color:white;
 }
