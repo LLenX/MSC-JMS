@@ -226,12 +226,12 @@ $(function () {
             url: target_url_param,
             data: choices,
         }).done(function (res) {
-            res = JSON.parse(res);
             uploadConnectSucceed(res);
+            $("#choices").removeAttr("disabled");
         }).fail(function (res) {
             uploadParamConnectFail();
+            $("#choices").removeAttr("disabled");
         });
-        $("#choices").removeAttr("disabled");
     }
 
     var appendInputGroup = function(res){
@@ -255,14 +255,19 @@ $(function () {
     };
     var uploadConnectSucceed = function(res){
         //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
-        console.log(res);
-        var $error_message = $("#error-message").children().remove();
+        res = JSON.parse(res);
+        var $error_message = $("#error-message");
+        res.predict = res.predict || {};
+        res.check   = res.check   || {};
+        res.analyze = res.analyze || {};
+
+        $error_message.children().remove();
 
         if (res.predict.success == false){
             var $predict_message = $("<div></div>").attr("id", "predict-message");
             $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
             for (var error in res.predict.message){
-                $("<p></p>").text(error).appendTo($predict_message);
+                $("<p></p>").text(error + res.predict.message[error]).appendTo($predict_message);
             }
             $predict_message.appendTo($error_message);
         }
@@ -271,7 +276,7 @@ $(function () {
             var $check_message = $("<div></div>").attr("id", "check-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
             for (var error in res.check.message){
-                $("<p></p>").text(error).appendTo($check_message);
+                $("<p></p>").text(error + res.check.message[error]).appendTo($check_message);
             }
             $check_message.appendTo($error_message);
         }
@@ -280,7 +285,7 @@ $(function () {
             var $analyze_message = $("<div></div>").attr("id", "analyze-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
             for (var error in res.analyze.message){
-                $("<p></p>").text(error).appendTo($analyze_message);
+                $("<p></p>").text(error + res.analyze.message[error]).appendTo($analyze_message);
             }
             $analyze_message.appendTo($error_message);
         }
@@ -289,7 +294,9 @@ $(function () {
         &&  res.check.success
         &&  res.analyze.success)
             uploadParamSucceed();
-        else $("#tip").text("计算失败.");
+        else {
+            $("#tip").text("计算失败.");
+        }
         
     }
     var uploadParamSucceed = function(){

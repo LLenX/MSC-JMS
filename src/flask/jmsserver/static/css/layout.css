@@ -8,9 +8,10 @@ body{
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    width:420px;
+    width:450px;
+    height:500px;
     border:2px yellow solid;
-    overflow:hidden;
+    overflow-y :scroll;
     color:yellow;
     border-radius:10px;
 }
