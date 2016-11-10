@@ -59,6 +59,20 @@ class Caller:
         self._check_output_folder()
         self.clear_output_folder()
 
+    def call(self, option_set, year=None):
+
+        task = EpOp.get_task(option_set)
+        if task == EpOp.TASK_ANALYZE:
+            return self.associativity_analysis()
+
+        if task == EpOp.TASK_PREDICT:
+            return self.predict(year, option_set)
+
+        if task == EpOp.TASK_PRECISION_CHECK:
+            return self.check_precision(year, option_set)
+
+        raise EpOp.InvalidOption('No Action Specified')
+
     def predict(self, year, option_set):
         """
         invoke the predict functionality of epred

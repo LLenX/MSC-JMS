@@ -1,7 +1,8 @@
 from jmsserver.EpredCaller import Caller
 from jmsserver.Form import Form
+import jmsserver.EpredOption as EpOp
 from zipfile import ZipFile
-import flask, os, os.path
+import flask, os, json
 
 jms_server = flask.Flask(__name__)
 
@@ -28,7 +29,11 @@ def index():
     return flask.render_template('index.html')
 
 
-def _add_report_to_zip(report_zip, report_subdir):
+def _add_report_to_zip(report_zip, task_option):
+    report_subdir = {EpOp.TASK_PREDICT: 'Pred',
+                     EpOp.TASK_PRECISION_CHECK: 'Check',
+                     EpOp.TASK_ANALYZE: 'Analysis'}[task_option]
+
     absolute_report_dir = os.path.join(
         jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
     report_names = os.listdir(absolute_report_dir)
@@ -42,45 +47,51 @@ def _pack_reports(report_zip, report_subdirs):
         _add_report_to_zip(report_zip, report_subdir)
 
 
-@jms_server.route('/upload_param', methods=['POST'])
-def do_prediction():
+def perform_task(option_set, year, report_zip):
     caller = Caller(jms_server.config['JAR_EXECUTABLE_DIR'],
                     jms_server.config['INPUT_DATA_DIR'],
                     jms_server.config['OUTPUT_FILE_DIR'])
 
+    task_option = EpOp.get_task(option_set)
+    task_name = {EpOp.TASK_PREDICT: 'predict', EpOp.TASK_ANALYZE: 'analyze',
+                 EpOp.TASK_PRECISION_CHECK: 'check'}[task_option]
+
+    task_result = {}
+    success = False
+    if caller.call(option_set, year) == 0:
+        success = True
+        _add_report_to_zip(report_zip, task_option)
+    else:
+        success = False
+
+    task_result['success'] = success
+    task_result['message'] = caller.get_log()
+    return success, {task_name: task_result}
+
+
+@jms_server.route('/upload_param', methods=['POST'])
+def do_prediction():
     form = Form(flask.request.form)
+    option_list = form.get_options()
 
-    if form.can_predict():
-        year, options = form.predict_option()
-        if caller.predict(year, options) == 0:
-            # TODO REFACTOR
-            pass
+    result_json = {}
+    success = True
 
-    if form.can_check():
-        year, options = form.check_option()
-        if caller.check_precision(year, options) == 0:
-            # TODO REFACTOR
-            pass
-
-    if form.can_analyze():
-        if caller.associativity_analysis() == 0:
-            # TODO REFACTOR
-            pass
-
-    return '', 204
-
-
-@jms_server.route('/download_report')
-def download_report():
-    report_subdirs = ['Pred', 'Check', 'Analysis']
-    if not os.path.exists(jms_server.config['REPORT_ZIP_DIR']):
-        os.makedirs(jms_server.config['REPORT_ZIP_DIR'])
     with ZipFile(
             os.path.join(
                 jms_server.config['REPORT_ZIP_DIR'],
                 jms_server.config['REPORT_ZIP_NAME']), 'w') as report_zip:
-        _pack_reports(report_zip, report_subdirs)
+        for option_set, year in option_list:
+            # TODO read from database
+            task_result, success = perform_task(option_set, year, report_zip)
+            result_json.update(task_result)
+            # TODO write to database
 
+    return json.dumps(result_json), 200
+
+
+@jms_server.route('/download_report')
+def download_report():
     return flask.send_from_directory(
         jms_server.config['REPORT_ZIP_DIR'],
         jms_server.config['REPORT_ZIP_NAME'])
