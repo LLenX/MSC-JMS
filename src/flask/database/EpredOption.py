@@ -35,6 +35,13 @@ TIME_FOURTH_SEASON = 0x0600
 
 TIME_MASK = 0x0f00
 
+# task
+TASK_PREDICT = 0x1000
+TASK_PRECISION_CHECK = 0x2000
+TASK_ANALYZE = 0x3000
+
+TASK_MASK = 0xf000
+
 
 class InvalidOption(Exception):
     """
