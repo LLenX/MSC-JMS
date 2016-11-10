@@ -221,15 +221,10 @@ $(function () {
             data: choices,
         }).done(function (res) {
             if (res != "fail") {
-                $("#return-revise").removeAttr("disabled");
-                $("#choices").removeAttr("disabled");
-                addDownloadButton();
-                window.open(target_url_revise);
-                $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改");
+                uploadParamSucceed();
             }
         }).fail(function (res) {
-            console.log("fail");
-            $("#tip").text("与服务器连接出错");
+            uploadParamConnectFail();
         });
     }
 
@@ -252,6 +247,20 @@ $(function () {
             }
         }
     };
+
+    var uploadParamSucceed = function(){
+        $("#return-revise").removeAttr("disabled");
+        $("#choices").removeAttr("disabled");
+        addDownloadButton();
+        window.open(target_url_revise);
+        $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改");
+    }
+
+    var uploadParamConnectFail = function(){
+        console.log("fail");
+        $("#tip").text("与服务器连接出错");
+    }
+
     var addDownloadButton = function(){
         //添加一个可供下载的链接， 如果已存在就不添加
         if ($("#download-button").length > 0)

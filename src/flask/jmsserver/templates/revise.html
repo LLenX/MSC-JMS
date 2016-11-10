@@ -13,11 +13,11 @@
 	<body>
 		<div id = "revise">		
 			<form id = "revise-form" role="form">
-                {% if numbers %}
-                    {% for number in numbers%}
+                {% if data %}
+                    {% for d in data%}
                         <div class="input-group">
-                            <span class="input-group-addon">{{ loop.index + 1 }}月</span>
-			                <input type="text" name="{{ loop.index + 1 }}" class="form-control" placeholder="{{ number }}">
+                            <span class="input-group-addon">{{ d.month }}月</span>
+			                <input type="text" name="{{ d.month }}" class="form-control" placeholder="{{ d.number }}">
                         </div>
                     {% endfor %}
                     <input type="submit" name="submit-button" value="提交修改">
