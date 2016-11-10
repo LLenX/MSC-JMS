@@ -33,7 +33,7 @@ if __name__ == '__main__':
     start_r_server()
     port, host = get_port(sys.argv[1:])
     if not port:
-        port = 8080
+        port = 12345
     if not host:
-        host = '0.0.0.0'
+        host = '127.0.0.1'
     jms_server.run(debug=True, port=port, host=host)
