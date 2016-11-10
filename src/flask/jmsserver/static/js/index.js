@@ -213,6 +213,7 @@ $(function () {
         //      打开有修改界面的网页。
         //失败就在控制台显示"fail"。
         $("#tip").text("正在上传report");
+        console.log(choices);
         $.ajax({
             type: "post",
             url: target_url_param,
@@ -250,7 +251,7 @@ $(function () {
     };
     var addDownloadButton = function(){
         //添加一个可供下载的链接， 如果已存在就不添加
-        if ($("#download").length > 0)
+        if ($("#download-button").length > 0)
             return;
         $("<a></a>")
         .attr({
