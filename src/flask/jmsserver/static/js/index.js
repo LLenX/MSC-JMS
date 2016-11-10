@@ -287,6 +287,8 @@ $(function () {
         &&  res.check.success
         &&  res.analyze.success)
             uploadParamSucceed();
+        else $("#tip").text("计算失败.");
+        
     }
     var uploadParamSucceed = function(){
         $("#return-revise").removeAttr("disabled");
