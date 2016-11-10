@@ -226,9 +226,7 @@ $(function () {
             url: target_url_param,
             data: choices,
         }).done(function (res) {
-            if (res != "fail") {
-                uploadParamSucceed();
-            }
+            uploadConnectSucceed(res);
         }).fail(function (res) {
             uploadParamConnectFail();
         });
@@ -257,7 +255,7 @@ $(function () {
         //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
         var $error_message = $("#error-message").children().remove();
 
-        if (res.predict.success != undefined){
+        if (res.predict.success == false){
             var $predict_message = $("<div></div>").attr("id", "predict-message");
             $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
             for (var error in res.predict.message){
@@ -266,7 +264,7 @@ $(function () {
             $predict_message.appendTo($error_message);
         }
 
-        if (res.check.success != undefined){
+        if (res.check.success == false){
             var $check_message = $("<div></div>").attr("id", "check-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
             for (var error in res.check.message){
@@ -275,7 +273,7 @@ $(function () {
             $check_message.appendTo($error_message);
         }
 
-        if (res.analyze.success != undefined){
+        if (res.analyze.success == false){
             var $analyze_message = $("<div></div>").attr("id", "analyze-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
             for (var error in res.analyze.message){
