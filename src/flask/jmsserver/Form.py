@@ -84,7 +84,7 @@ class Form:
             self.form['04']) | EpOp.TASK_PREDICT
         year = self.form.get('02')
 
-        return year, options
+        return options, year
 
     def check_option(self):
         """
@@ -100,4 +100,4 @@ class Form:
 
         year = self.form.get('12')
 
-        return year, options
+        return options, year

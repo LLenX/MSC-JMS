@@ -47,7 +47,15 @@ def _pack_reports(report_zip, report_subdirs):
         _add_report_to_zip(report_zip, report_subdir)
 
 
-def perform_task(option_set, year, report_zip):
+def _ensure_directories():
+    if not os.path.exists(jms_server.config['OUTPUT_FILE_DIR']):
+        os.makedirs(jms_server.config['OUTPUT_FILE_DIR'])
+
+    if not os.path.exists(jms_server.config['REPORT_ZIP_DIR']):
+        os.makedirs(jms_server.config['REPORT_ZIP_DIR'])
+
+
+def _perform_task(option_set, year, report_zip):
     caller = Caller(jms_server.config['JAR_EXECUTABLE_DIR'],
                     jms_server.config['INPUT_DATA_DIR'],
                     jms_server.config['OUTPUT_FILE_DIR'])
@@ -66,11 +74,13 @@ def perform_task(option_set, year, report_zip):
 
     task_result['success'] = success
     task_result['message'] = caller.get_log()
-    return success, {task_name: task_result}
+    return {task_name: task_result}, success
 
 
 @jms_server.route('/upload_param', methods=['POST'])
 def do_prediction():
+    _ensure_directories()
+    
     form = Form(flask.request.form)
     option_list = form.get_options()
 
@@ -82,8 +92,9 @@ def do_prediction():
                 jms_server.config['REPORT_ZIP_DIR'],
                 jms_server.config['REPORT_ZIP_NAME']), 'w') as report_zip:
         for option_set, year in option_list:
+            print(option_set, year)
             # TODO read from database
-            task_result, success = perform_task(option_set, year, report_zip)
+            task_result, success = _perform_task(option_set, year, report_zip)
             result_json.update(task_result)
             # TODO write to database
 
