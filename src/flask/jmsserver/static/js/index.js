@@ -230,6 +230,7 @@ $(function () {
         }).fail(function (res) {
             uploadParamConnectFail();
         });
+        $("#choices").removeAttr("disabled");
     }
 
     var appendInputGroup = function(res){
@@ -253,7 +254,6 @@ $(function () {
     };
     var uploadConnectSucceed = function(res){
         //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
-        //再让"提交选择"按钮可点击
         var $error_message = $("#error-message").children().remove();
 
         if (res.predict.success == false){
@@ -287,8 +287,6 @@ $(function () {
         &&  res.check.success
         &&  res.analyze.success)
             uploadParamSucceed();
-        
-        $("#choices").removeAttr("disabled");
     }
     var uploadParamSucceed = function(){
         $("#return-revise").removeAttr("disabled");
