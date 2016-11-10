@@ -226,6 +226,7 @@ $(function () {
             url: target_url_param,
             data: choices,
         }).done(function (res) {
+            res = JSON.parse(res);
             uploadConnectSucceed(res);
         }).fail(function (res) {
             uploadParamConnectFail();
@@ -254,6 +255,7 @@ $(function () {
     };
     var uploadConnectSucceed = function(res){
         //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
+        console.log(res);
         var $error_message = $("#error-message").children().remove();
 
         if (res.predict.success == false){
