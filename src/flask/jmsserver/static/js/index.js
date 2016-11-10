@@ -226,9 +226,7 @@ $(function () {
             url: target_url_param,
             data: choices,
         }).done(function (res) {
-            if (res != "fail") {
-                uploadParamSucceed();
-            }
+            uploadConnectSucceed(res);
         }).fail(function (res) {
             uploadParamConnectFail();
         });
@@ -253,13 +251,48 @@ $(function () {
             }
         }
     };
+    var uploadConnectSucceed = function(res){
+        //若三项功能中某项出错，则把其错误信息显示在"#error-message"上
+        var $error_message = $("#error-message").children().remove();
 
+        if (res.predict.success == false){
+            var $predict_message = $("<div></div>").attr("id", "predict-message");
+            $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
+            for (var error in res.predict.message){
+                $("<p></p>").text(error).appendTo($predict_message);
+            }
+            $predict_message.appendTo($error_message);
+        }
+
+        if (res.check.success == false){
+            var $check_message = $("<div></div>").attr("id", "check-message");
+            $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
+            for (var error in res.check.message){
+                $("<p></p>").text(error).appendTo($check_message);
+            }
+            $check_message.appendTo($error_message);
+        }
+
+        if (res.analyze.success == false){
+            var $analyze_message = $("<div></div>").attr("id", "analyze-message");
+            $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
+            for (var error in res.analyze.message){
+                $("<p></p>").text(error).appendTo($analyze_message);
+            }
+            $analyze_message.appendTo($error_message);
+        }
+
+        if (res.predict.success
+        &&  res.check.success
+        &&  res.analyze.success)
+            uploadParamSucceed();
+    }
     var uploadParamSucceed = function(){
         $("#return-revise").removeAttr("disabled");
         $("#choices").removeAttr("disabled");
         addDownloadButton();
         window.open(target_url_revise);
-        $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改");
+        $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改。若无弹出可能是窗口被拦截，请解除拦截");
     }
 
     var uploadParamConnectFail = function(){
