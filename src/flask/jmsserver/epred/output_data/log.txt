@@ -1,0 +1,11 @@
+Electric Prediction System is now working.
+[2016-11-10T19:51:10.237+08:00[Asia/Shanghai]]predictor builded
+[2016-11-10T19:51:10.242+08:00[Asia/Shanghai]]checker builded
+[2016-11-10T19:51:10.242+08:00[Asia/Shanghai]]failCount=0
+[2016-11-10T19:51:12.254+08:00[Asia/Shanghai]]Electric Prediction System is now working.
+[2016-11-10T19:51:12.483+08:00[Asia/Shanghai]]predictor builded
+[2016-11-10T19:51:12.487+08:00[Asia/Shanghai]]checker builded
+[2016-11-10T19:51:12.488+08:00[Asia/Shanghai]]jump=4
+[2016-11-10T19:51:15.026+08:00[Asia/Shanghai]]数据分配时发生错误
+[2016-11-10T19:51:15.027+08:00[Asia/Shanghai]]failCount=1
+[2016-11-10T19:51:15.027+08:00[Asia/Shanghai]]

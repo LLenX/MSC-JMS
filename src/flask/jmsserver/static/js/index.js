@@ -187,12 +187,13 @@ $(function () {
 
     var checkIfAllOptionsAreSelected = function(){
         //若某行第一个checkbox被勾选，则该行每个选项都应被选择
+        //若三个checkbox都不勾选，则也返回false
         var first_checkbox_is_checked  = $("#first-line .checkbox input").is(":checked");
         var second_checkbox_is_checked = $("#second-line .checkbox input").is(":checked");
         var third_checkbox_is_checked  = $("#relation").is(":checked");
         if (!first_checkbox_is_checked
-        &&  !second_checkbox_is_checked
-        &&  !third_checkbox_is_checked)
+        ||  !second_checkbox_is_checked
+        ||  !third_checkbox_is_checked)
             return false; 
         if (first_checkbox_is_checked){
             var options = $("#first-line option:selected");
