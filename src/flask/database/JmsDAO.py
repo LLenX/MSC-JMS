@@ -1,5 +1,5 @@
 import mysql.connector
-from JmsDataManager import JmsDataManager
+from JmsDataHelper import JmsDataHelper
 
 """
 Jms Database Access Object
@@ -11,9 +11,9 @@ class JmsDAO:
     USER_NAME = 'test'
     PASSWORD = 'password'
 
-    def __init__(self, db_name):
+    def __init__(self, db_name, username=USER_NAME, password=PASSWORD):
         JmsDAO.create_db_if_not_exists(db_name)
-        self.db_conn = mysql.connector.connect(host="localhost", user=JmsDAO.USER_NAME, passwd=JmsDAO.PASSWORD,
+        self.db_conn = mysql.connector.connect(host="localhost", user=username, passwd=password,
                                                db=db_name,
                                                charset='utf8')
 
@@ -23,7 +23,7 @@ class JmsDAO:
         :param option_set: 选项
         :return:
         """
-        return JmsDataManager(option_set, self.db_conn)
+        return JmsDataHelper(option_set, self.db_conn)
 
     def close(self):
         """
