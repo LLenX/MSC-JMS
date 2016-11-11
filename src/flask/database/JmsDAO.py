@@ -12,7 +12,7 @@ class JmsDAO:
     PASSWORD = 'password'
 
     def __init__(self, db_name, username=USER_NAME, password=PASSWORD):
-        JmsDAO.create_db_if_not_exists(db_name)
+        JmsDAO.create_db_if_not_exists(db_name, username, password)
         self.db_conn = mysql.connector.connect(host="localhost", user=username, passwd=password,
                                                db=db_name,
                                                charset='utf8')
@@ -42,8 +42,8 @@ class JmsDAO:
         self.db_conn.close()
 
     @staticmethod
-    def create_db_if_not_exists(db_name):
-        database = mysql.connector.connect(host="localhost", user=JmsDAO.USER_NAME, passwd=JmsDAO.PASSWORD)
+    def create_db_if_not_exists(db_name, username, password):
+        database = mysql.connector.connect(host="localhost", user=username, passwd=password)
         cursor = database.cursor()
         sql = 'CREATE DATABASE IF NOT EXISTS ' + db_name
         cursor.execute(sql)
