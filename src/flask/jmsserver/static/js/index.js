@@ -17,7 +17,7 @@ function windowOnLoad(){
 
     var file_collection = [];
     var target_url_param = "/upload_param";
-    var target_url_revise = "/upload_revise";
+    var target_url_revise = "/revise";
     var target_url_report = "/download_report";
     var choices = {};
     var revise_data = {};

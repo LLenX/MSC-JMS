@@ -141,6 +141,7 @@ form{
 #download-button:before{
     font-family: "FontAwesome";
     content: "\f019";
+    margin-left: 5px;
     margin-right: 5px;
 }
 
