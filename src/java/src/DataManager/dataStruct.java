@@ -287,12 +287,12 @@ public class dataStruct {
 		 */
 		Row namerow = sheet1.getRow(0);
 		String[] name = new String[namerow.getLastCellNum()];
-		if(namerow.getFirstCellNum()!=1){
+/*		if(namerow.getFirstCellNum()!=1){
 			System.out.println("发生错位错误");
 			return -3;
 		}
-//		for(int i=namerow.getFirstCellNum();i<namerow.getLastCellNum();i++){
-		for(int i=namerow.getFirstCellNum();i<namerow.getLastCellNum();i++){	
+//		for(int i=namerow.getFirstCellNum();i<namerow.getLastCellNum();i++){*/
+		for(int i=namerow.getFirstCellNum()+1;i<namerow.getLastCellNum();i++){	
 			Cell cell = namerow.getCell(i);
 			if(cell==null){
 				System.out.println("数据缺失");

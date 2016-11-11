@@ -17,7 +17,7 @@ class JmsDataHelper:
         """
         self.option_set = option_set
         self.input_files = JmsDataHelper.get_input_files(option_set)
-        self.output_files = JmsDataHelper.get_output_files(self.option_set)
+        self.output_files = JmsDataHelper.get_output_files(option_set)
         self.db_bin = DbBin.DbBin(db_conn, 'raw_files')
         self.db_conn = db_conn
 
@@ -106,43 +106,36 @@ class JmsDataHelper:
             os.makedirs(directory)
 
     """
-    输入与输出文件表，描述各个选项需要的输入文件以及产生的结果文件。
+    输入文件表，描述各个选项需要的输入文件。
     每个项目为 "文件名" : "文件相对路径"
     结果文件中的xlxs、csv会以数据库表的形式保存
     其他格式的文件则以二进制形式保存
     """
-    # TODO 未完成，这里仅为示例。
-    io_table = {
-        AREA_ALL | DURATION_ALL_YEAR | TIME_FIRST_HALF: {
-            'input': {
-                '总用电量': '总用电量.xlsx',
-            },
-            'output': {
-                '全社会用电量年度预测结果报告': r'Report\Pred\2016年全社会用电量年度预测结果报告.docx',
-                'all_pred_png': r'Result\Pred\all\allPred.png',
-                'all_pred_csv': r'Result\Pred\all\allPred.csv',
-                'all_csv': r'Data4r\Predict\all\all.csv',
-                'all_spring_csv': r'Data4r\Predict\all\spring.csv',
-                'all_starttime_csv': r'Data4r\Predict\all\starttime.csv',
-            },
+    i_table = {
+        AREA_ALL: {
+            '总用电量': '总用电量.xlsx',
         },
-        AREA_TOWN | DURATION_ALL_YEAR | TIME_FIRST_HALF: {
-            'input': {
-                '分镇街用电量': '分镇街用电量.xlsx',
-            },
-            'output': {
+        AREA_TOWN: {
+            '分镇街用电量': '分镇街用电量.xlsx',
+        },
+        AREA_VICE_MODEL: {
+            '宏观数据': '宏观数据.xlsx',
+        }
+    }
 
-            },
-        },
+    o_table = {
 
     }
 
-    # TODO 需要加入根据年份自动加上年份前缀等东东
-
     @staticmethod
     def get_input_files(option_set):
-        return JmsDataHelper.io_table[option_set]['input']
+        # 反正输入文件只有这三个，全部都给他好了....
+        return {
+            '总用电量': '总用电量.xlsx',
+            '分镇街用电量': '分镇街用电量.xlsx',
+            '宏观数据': '宏观数据.xlsx',
+        }
 
     @staticmethod
     def get_output_files(option_set):
-        return JmsDataHelper.io_table[option_set]['output']
+        return {}  # JmsDataHelper.o_table[option_set]

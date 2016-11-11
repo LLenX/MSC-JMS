@@ -6,12 +6,12 @@ from EpredOption import *
 
 dao = JmsDAO(db_name='data', username='test', password='password')
 
-option = AREA_ALL | DURATION_ALL_YEAR | TIME_FIRST_HALF
+option = AREA_ALL | DURATION_ALL_YEAR
 
 dataHelper = dao.get_data_helper(option)
 
 # 以下语句只需运行一次~ 将数据导入到数据库
-dataHelper.import_input_files('E:\\data\\')
+dao.import_all_input_files('E:\\data\\')
 
 dataHelper.prepare_input_files('D:\\data\\')
 
