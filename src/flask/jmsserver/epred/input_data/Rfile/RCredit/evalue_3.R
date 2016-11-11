@@ -3,13 +3,13 @@ evalue3<-function(u)
   
   
   
-  operval<-u$ç»è¥èƒ½åŠ›
+  operval<-u$¾­ÓªÄÜÁ¦
   
   lawval<-lawc1(u)
   
-  devval<-u$ç”¨æˆ·ç”µæ°”è®¾å¤‡
+  devval<-u$ÓÃ»§µçÆøÉè±¸
   
-  safval<-u$å®‰å…¨è¯„ä»·
+  safval<-u$°²È«ÆÀ¼Û
   
   cooval<-coorc(u)
   
@@ -23,25 +23,25 @@ evalue3<-function(u)
     
     rank_of_operation=operval,
     
-    sche_coor=cooval$sche_coor,#è°ƒåº¦åˆä½œè®°å½•
-    DSM=cooval$DSM,#éœ€æ±‚ä¾§ç®¡ç†
-    ele_fee_charge=cooval$ele_fee_charge,#ç”µè´¹é€€è¡¥è®°å½•
+    sche_coor=cooval$sche_coor,#µ÷¶ÈºÏ×÷¼ÇÂ¼
+    DSM=cooval$DSM,#ÐèÇó²à¹ÜÀí
+    ele_fee_charge=cooval$ele_fee_charge,#µç·ÑÍË²¹¼ÇÂ¼
     rank_ofcoorperation_credit= cooval$rank_ofsafty,
     
-    illigal_usage=lawval$illigal_usage,#è¿ç« ç”¨ç”µæƒ…å†µÂ·
-    ele_fee_payment=lawval$ele_fee_payment,#ç”µè´¹ç¼´çº³æƒ…å†µ
+    illigal_usage=lawval$illigal_usage,#Î¥ÕÂÓÃµçÇé¿ö¡¤
+    ele_fee_payment=lawval$ele_fee_payment,#µç·Ñ½ÉÄÉÇé¿ö
     rank_of_credit=lawval$rank_ofcredit,
     
     rank_of_devices=devval,
     
     rank_of_safty= safval,
     
-    sche_coor=cooval$sche_coor,#è°ƒåº¦åˆä½œè®°å½•
-    DSM=cooval$DSM,#éœ€æ±‚ä¾§ç®¡ç†
-    ele_fee_charge=cooval$ele_fee_charge,#ç”µè´¹é€€è¡¥è®°å½•
+    sche_coor=cooval$sche_coor,#µ÷¶ÈºÏ×÷¼ÇÂ¼
+    DSM=cooval$DSM,#ÐèÇó²à¹ÜÀí
+    ele_fee_charge=cooval$ele_fee_charge,#µç·ÑÍË²¹¼ÇÂ¼
     rank_of_safty= cooval$rank_ofsafty,
     
-    reward_time=recval$reward_time,#å¥–åŠ±æ¬¡æ•°
+    reward_time=recval$reward_time,#½±Àø´ÎÊý
     rank_of_reactivecompensation=recval$rank_ofcoorperation_credit,
     
     weight=rank_of_user

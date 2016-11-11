@@ -1,25 +1,25 @@
 townCheck<-function(ipadd,opadd,timelength){
 library(forecast)
-## ä¿®æ”¹æ—¶é—´ 7-27
-## æ ¹æ®timelengthè‡ªåŠ¨çš„åˆ†å‰²å†å²æ•°æ®ä¸é¢„æµ‹æ•°æ®èŒƒå›´
+## ĞŞ¸ÄÊ±¼ä 7-27
+## ¸ù¾İtimelength×Ô¶¯µÄ·Ö¸îÀúÊ·Êı¾İÓëÔ¤²âÊı¾İ·¶Î§
 
-#è¯»å–æ•°æ®
-##1.åˆ†é•‡è¡—ç”¨ç”µé‡å†å²æ•°æ®
+#¶ÁÈ¡Êı¾İ
+##1.·ÖÕò½ÖÓÃµçÁ¿ÀúÊ·Êı¾İ
 # towndata = read.csv(choose.files(),header = T)
 # data = read.csv(paste(ipadd,"town/town.csv",sep=""),header = T)
-# timelength=4#æµ‹è¯•ç”¨
+# timelength=4#²âÊÔÓÃ
 # ipadd = "C:/Users/Nelson/Desktop/Rdata/"
 # opadd = "D:/test/R4java/"
-towndata = read.csv(paste(ipadd,"Check/town/town.csv",sep=""),header = T,fileEncoding = "GB18030")
-# data=towndata[1:24,]#ç°åœ¨åªæœ‰1415çš„æ•°æ®ï¼Œæ‰€ä»¥åªç”¨ä¸¤å¹´
+towndata = read.csv(paste(ipadd,"Check/town/town.csv",sep=""),header = T)
+# data=towndata[1:24,]#ÏÖÔÚÖ»ÓĞ1415µÄÊı¾İ£¬ËùÒÔÖ»ÓÃÁ½Äê
 # realdata=towndata[25:(24+timelength),]
 data = towndata[1:(length(towndata[,1])-timelength),]
 realdata = towndata[(length(towndata[,1])-timelength+1):length(towndata[,1]),]
 # data = towndata[1:36,]
 # realdata = towndata[37:(36+timelength),]
-##4.å†å²æ•°æ®å¼€å§‹æ—¶é—´,é¢„æµ‹å¼€å§‹æ—¶é—´ï¼ˆå¼€å§‹æ—¶é—´ç”±javaæä¾›ï¼‰
+##4.ÀúÊ·Êı¾İ¿ªÊ¼Ê±¼ä,Ô¤²â¿ªÊ¼Ê±¼ä£¨¿ªÊ¼Ê±¼äÓÉjavaÌá¹©£©
 # starttime = read.csv(choose.files(),header = F)
-starttime = read.csv(paste(ipadd,"Check/town/starttime.csv",sep=""),header = F,fileEncoding = "GB18030")
+starttime = read.csv(paste(ipadd,"Check/town/starttime.csv",sep=""),header = F)
 # predata = c()
 sumerr = c()
 townratio = c()
@@ -28,10 +28,10 @@ for(id in 1:length(data[1,])){
   totalts = ts(total,frequency = 12,start = c(starttime[1,1],starttime[1,2]))
   hotmodel = HoltWinters(totalts,start.periods = 3,seasonal = "multiplicative")
   fore = forecast.HoltWinters(hotmodel,h=timelength)
-  # png(file=paste('D:\\test\\R4java\\åˆ†é•‡è¡—é¢„æµ‹\\',colnames(data)[id],'.png',sep=""))
+  # png(file=paste('D:\\test\\R4java\\·ÖÕò½ÖÔ¤²â\\',colnames(data)[id],'.png',sep=""))
   png(file=paste(opadd,"PCheck/town/",colnames(data)[id],'.png',sep=""))
   plot(ts(towndata[,id],frequency = 12,start = c(starttime[1,1],starttime[1,2])),
-       main=paste(colnames(data)[id],"é¢„æµ‹ç»“æœ"),xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+       main=paste(colnames(data)[id],"Ô¤²â½á¹û"),xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
   lines(ts(fore$mean,frequency = 12,start = c(starttime[2,1],starttime[2,2])),col=2)
   dev.off()
   # predata = rbind(predata,as.vector(fore$mean))
@@ -41,13 +41,13 @@ for(id in 1:length(data[1,])){
 }
 
 err.frame = data.frame(sumerr,townratio)
-colnames(err.frame) = c("æ€»è¯¯å·®","å æ¯”")
+colnames(err.frame) = c("×ÜÎó²î","Õ¼±È")
 rownames(err.frame) = colnames(towndata)
 
 
-#è®¡ç®—
-#1.å„ä¸ªé•‡è¡—ç”¨ç”µé‡å æ¯”
-#2.ç”¨ç”µé‡é¢„æµ‹è¯¯å·®åœ¨å„ä¸ªåŒºé—´å†…çš„é•‡è¡—æ•°ç›®ï¼Œå æ¯”ï¼Œç”¨ç”µé‡å æ¯”
+#¼ÆËã
+#1.¸÷¸öÕò½ÖÓÃµçÁ¿Õ¼±È
+#2.ÓÃµçÁ¿Ô¤²âÎó²îÔÚ¸÷¸öÇø¼äÄÚµÄÕò½ÖÊıÄ¿£¬Õ¼±È£¬ÓÃµçÁ¿Õ¼±È
 # num.na = length(which(is.na(sumerr)))
 # numratio.na = num.na/length(data[1,])
 # powratio.na = sum(townratio[which(is.na(sumerr))])
@@ -68,8 +68,8 @@ powratio.bad = sum(townratio[which(sumerr>0.05)])
 vec.bad = c(num.bad,numratio.bad,powratio.bad)
 
 ratio.frame = data.frame(vec.good,vec.soso,vec.bad)
-colnames(ratio.frame) = c("é¢„æµ‹å‡†ç¡®","é¢„æµ‹è¾ƒå‡†ç¡®","ä¸å‡†ç¡®")
-row.names(ratio.frame) = c("é•‡è¡—æ•°","é•‡è¡—æ•°å æ¯”","ç”¨ç”µé‡å æ¯”")
+colnames(ratio.frame) = c("Ô¤²â×¼È·","Ô¤²â½Ï×¼È·","²»×¼È·")
+row.names(ratio.frame) = c("Õò½ÖÊı","Õò½ÖÊıÕ¼±È","ÓÃµçÁ¿Õ¼±È")
 
 write.csv(err.frame,paste(opadd,"PCheck/town/towncheck.csv",sep=""),fileEncoding = "GB18030")
 write.csv(ratio.frame,paste(opadd,"PCheck/town/towncheckratio.csv",sep=""),fileEncoding = "GB18030")

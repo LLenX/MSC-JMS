@@ -1,16 +1,16 @@
 devi1<-function()
 {
   
-  print("è¯·è¾“å…¥ç”¨æˆ·ç”µæ°”è®¾å¤‡æŒ‡æ ‡å¾—åˆ†ï¼šé…ç”µé—´åŸºæœ¬æƒ…å†µï¼Œç”µæ°”è®¾å¤‡åŸºæœ¬æƒ…å†µï¼Œå®‰å…¨ç”¨å…·åŠè§„ç¨‹ï¼Œç”µæ°”è®¾å¤‡ç»´æŠ¤æƒ…å†µ")
+  print("ÇëÊäÈëÓÃ»§µçÆøÉè±¸Ö¸±êµÃ·Ö£ºÅäµç¼ä»ù±¾Çé¿ö£¬µçÆøÉè±¸»ù±¾Çé¿ö£¬°²È«ÓÃ¾ß¼°¹æ³Ì£¬µçÆøÉè±¸Î¬»¤Çé¿ö")
   
   edittor<-edit(rdev)
-  rank_of_devices<-edittor$é…ç”µé—´åŸºæœ¬æƒ…å†µ*wei4[1,]+edittor$ç”µæ°”è®¾å¤‡åŸºæœ¬æƒ…å†µ*wei4[2,]+edittor$å®‰å…¨ç”¨å…·åŠè§„ç¨‹*wei4[3,]+edittor$ç”µæ°”è®¾å¤‡ç»´æŠ¤æƒ…å†µ*wei4[4,]
+  rank_of_devices<-edittor$Åäµç¼ä»ù±¾Çé¿ö*wei4[1,]+edittor$µçÆøÉè±¸»ù±¾Çé¿ö*wei4[2,]+edittor$°²È«ÓÃ¾ß¼°¹æ³Ì*wei4[3,]+edittor$µçÆøÉè±¸Î¬»¤Çé¿ö*wei4[4,]
   
   devi1<-data.frame(
-    distribution_room_cond=edittor$é…ç”µé—´åŸºæœ¬æƒ…å†µ,
-    ele_devices_conditon=edittor$ç”µæ°”è®¾å¤‡åŸºæœ¬æƒ…å†µ,
-    safty_devices_regu=edittor$å®‰å…¨ç”¨å…·åŠè§„ç¨‹,
-    ele_devices_keep=edittor$ç”µæ°”è®¾å¤‡ç»´æŠ¤æƒ…å†µ,
+    distribution_room_cond=edittor$Åäµç¼ä»ù±¾Çé¿ö,
+    ele_devices_conditon=edittor$µçÆøÉè±¸»ù±¾Çé¿ö,
+    safty_devices_regu=edittor$°²È«ÓÃ¾ß¼°¹æ³Ì,
+    ele_devices_keep=edittor$µçÆøÉè±¸Î¬»¤Çé¿ö,
     rank_ofdevices=rank_of_devices
   )
 }

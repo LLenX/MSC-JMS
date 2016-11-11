@@ -25,7 +25,7 @@ AHP<-function(a,n,ri)
     
   }else
   {
-    judgeweight<-expr(5,n)$weight
+    judgeweight<-expr(5,n)$weight#专家数目暂定为5
   }
   wfun<-data.frame(weight=judgeweight)
 }

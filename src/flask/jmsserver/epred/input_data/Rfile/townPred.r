@@ -1,10 +1,10 @@
 townPred<-function(ipadd,opadd,timelength,numjump){
   
 ##
-## æ—¶é—´ï¼š7-14
+## Ê±¼ä£º7-14
 ##
-## æ—¶é—´ï¼š7-15
-## å¢žåŠ è·³æœˆé¢„æµ‹çš„åŠŸèƒ½ï¼Œåœ¨ä¸€å¹´æœªå®Œç»“çš„æƒ…å†µä¸‹è¿›è¡Œä¸‹ä¸€å¹´åº¦çš„é¢„æµ‹ã€‚
+## Ê±¼ä£º7-15
+## Ôö¼ÓÌøÔÂÔ¤²âµÄ¹¦ÄÜ£¬ÔÚÒ»ÄêÎ´Íê½áµÄÇé¿öÏÂ½øÐÐÏÂÒ»Äê¶ÈµÄÔ¤²â¡£
 ##
 ##
 # ipadd = "C:/Users/Nelson/Desktop/Rdata/"
@@ -13,15 +13,15 @@ townPred<-function(ipadd,opadd,timelength,numjump){
 # numjump=2
   
 library(forecast)
-#è¯»å–æ•°æ®
-##1.åˆ†é•‡è¡—ç”¨ç”µé‡åŽ†å²æ•°æ®
+#¶ÁÈ¡Êý¾Ý
+##1.·ÖÕò½ÖÓÃµçÁ¿ÀúÊ·Êý¾Ý
 # towndata = read.csv(choose.files(),header = T)
-data = read.csv(paste(ipadd,"Predict/town/town.csv",sep=""),header = T,fileEncoding = "GB18030")
+data = read.csv(paste(ipadd,"Predict/town/town.csv",sep=""),header = T)
 #data=towndata[1:24,]
 #realdata=towndata[25:28,]
-##4.åŽ†å²æ•°æ®å¼€å§‹æ—¶é—´,é¢„æµ‹å¼€å§‹æ—¶é—´ï¼ˆå¼€å§‹æ—¶é—´ç”±javaæä¾›ï¼‰
+##4.ÀúÊ·Êý¾Ý¿ªÊ¼Ê±¼ä,Ô¤²â¿ªÊ¼Ê±¼ä£¨¿ªÊ¼Ê±¼äÓÉjavaÌá¹©£©
 #starttime = read.csv(choose.files(),header = F)
-starttime = read.csv(paste(ipadd,"Predict/town/starttime.csv",sep=""),header = F,fileEncoding = "GB18030")
+starttime = read.csv(paste(ipadd,"Predict/town/starttime.csv",sep=""),header = F)
 predata = c()
 for(id in 1:length(data[1,])){
   total=data[,id]
@@ -30,7 +30,7 @@ for(id in 1:length(data[1,])){
   fore = forecast.HoltWinters(hotmodel,h=(timelength+numjump))
   png(file=paste(opadd,"Pred/town/",colnames(data)[id],'.png',sep=""))
   plot(ts(c(data[,id],fore$mean),frequency = 12,start = c(starttime[1,1],starttime[1,2])),
-       main=colnames(data)[id],xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+       main=colnames(data)[id],xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
   lines(ts(fore$mean[(numjump+1):length(fore$mean)],frequency = 12,start = c(starttime[2,1],starttime[2,2])),col=2)
   dev.off()
   predata = rbind(predata,sum(fore$mean[(numjump+1):length(fore$mean)]))
@@ -38,6 +38,6 @@ for(id in 1:length(data[1,])){
 }
 pred.frame = data.frame(predata)
 rownames(pred.frame)= colnames(data)
-colnames(pred.frame)= c(paste(timelength,"ä¸ªæœˆé¢„æµ‹å€¼",sep = ""))
-write.csv(pred.frame,paste(opadd,"Pred/town/åˆ†é•‡è¡—é¢„æµ‹ç»“æžœ.csv",sep=""),fileEncoding = "GB18030")
+colnames(pred.frame)= c(paste(timelength,"¸öÔÂÔ¤²âÖµ",sep = ""))
+write.csv(pred.frame,paste(opadd,"Pred/town/·ÖÕò½ÖÔ¤²â½á¹û.csv",sep=""),fileEncoding = "GB18030")
 }

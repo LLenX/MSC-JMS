@@ -1,7 +1,7 @@
 reacom<-function(u)
 {
   
-  nn<-u$ä¸€å¹´åŠ›çŽ‡å¥–åŠ±æ¬¡æ•°
+  nn<-u$Ò»ÄêÁ¦ÂÊ½±Àø´ÎÊý
   if(nn>=8)
   {score=100}else if(nn==7)
   {score=90}else if(nn==6)

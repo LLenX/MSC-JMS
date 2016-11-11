@@ -1,5 +1,5 @@
 credit_ass<-function(souadd,ipadd,opadd){
-  #åˆ›å»ºä¸€ä¸ªç”¨æˆ·å¹¶å¯¹å…¶è¿›è¡Œè¯„ä¼°
+  #´´½¨Ò»¸öÓÃ»§²¢¶ÔÆä½øĞĞÆÀ¹À
   # souadd = 'D:/7-14check/RCredit/'
   # ipadd = 'C:/Users/Nelson/Desktop/Rdata/'
   # opadd = 'C:/Users/Nelson/Desktop/Rdata/'
@@ -24,14 +24,14 @@ credit_ass<-function(souadd,ipadd,opadd){
   l<-length(u[,1])
   
   users<-data.frame(
-    ç”¨æˆ·å=c('0'),
-    ç”¨æˆ·ç­‰çº§=c('0'),
-    æ— åŠŸè¡¥å¿=c('0'),
-    æ³•å¾‹ä¿¡ç”¨=c('0'),
-    ç”¨æˆ·ç”µæ°”è®¾å¤‡æƒ…å†µ=c('0'),
-    å®‰å…¨è¯„ä»·=c('0'),
-    åˆä½œä¿¡ç”¨=c('0'),
-    ç»è¥èƒ½åŠ›=c('0')
+    ÓÃ»§Ãû=c('0'),
+    ÓÃ»§µÈ¼¶=c('0'),
+    ÎŞ¹¦²¹³¥=c('0'),
+    ·¨ÂÉĞÅÓÃ=c('0'),
+    ÓÃ»§µçÆøÉè±¸Çé¿ö=c('0'),
+    °²È«ÆÀ¼Û=c('0'),
+    ºÏ×÷ĞÅÓÃ=c('0'),
+    ¾­ÓªÄÜÁ¦=c('0')
     
     
   )
@@ -46,14 +46,14 @@ credit_ass<-function(souadd,ipadd,opadd){
   }
   
   
-  users$ç”¨æˆ·ç­‰çº§=eval3$weight
-  users$æ— åŠŸè¡¥å¿=eval3$rank_of_reactivecompensation
-  users$æ³•å¾‹ä¿¡ç”¨=eval3$rank_of_credit
-  users$ç”¨æˆ·ç”µæ°”è®¾å¤‡æƒ…å†µ=eval3$rank_of_devices
-  users$å®‰å…¨è¯„ä»·=eval3$rank_of_safty
-  users$åˆä½œä¿¡ç”¨=eval3$rank_ofcoorperation_credit
-  users$ç»è¥èƒ½åŠ›=eval3$rank_of_operation
-  users$ç”¨æˆ·å=u$ç”¨æˆ·å
+  users$ÓÃ»§µÈ¼¶=eval3$weight
+  users$ÎŞ¹¦²¹³¥=eval3$rank_of_reactivecompensation
+  users$·¨ÂÉĞÅÓÃ=eval3$rank_of_credit
+  users$ÓÃ»§µçÆøÉè±¸Çé¿ö=eval3$rank_of_devices
+  users$°²È«ÆÀ¼Û=eval3$rank_of_safty
+  users$ºÏ×÷ĞÅÓÃ=eval3$rank_ofcoorperation_credit
+  users$¾­ÓªÄÜÁ¦=eval3$rank_of_operation
+  users$ÓÃ»§Ãû=u$ÓÃ»§Ãû
   
   
   write.csv(users,file=paste(opadd,'userassessment.csv',sep=''))

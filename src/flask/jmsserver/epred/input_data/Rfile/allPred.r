@@ -1,11 +1,11 @@
 allPred<-function(ipadd,opadd,timelength,needsmooth,numjump){
 
 ##
-## æ—¶é—´ 7-14
-## åŠ ä¸Šæ—¶é—´é•¿åº¦ä»¥åŠæ˜¯å¦éœ€è¦å¹³æ»‘ï¼Œè‹¥ä¸éœ€è¦å¹³æ»‘ï¼Œåˆ™æ— éœ€è¯»å–resmoï¼Œä¹Ÿæ— éœ€å¯¹æ•°æ®è¿›è¡Œé€†å¹³æ»‘
+## Ê±¼ä 7-14
+## ¼ÓÉÏÊ±¼ä³¤¶ÈÒÔ¼°ÊÇ·ñÐèÒªÆ½»¬£¬Èô²»ÐèÒªÆ½»¬£¬ÔòÎÞÐè¶ÁÈ¡resmo£¬Ò²ÎÞÐè¶ÔÊý¾Ý½øÐÐÄæÆ½»¬
 ##
-## æ—¶é—´ 7-16
-## åŠ ä¸Šâ€œè·³æœˆâ€çš„åŠŸèƒ½ï¼Œåœ¨ä¸€å¹´æœªå®Œç»“çš„æ—¶å€™è¿›è¡Œä¸‹ä¸€å¹´çš„é¢„æµ‹ã€‚
+## Ê±¼ä 7-16
+## ¼ÓÉÏ¡°ÌøÔÂ¡±µÄ¹¦ÄÜ£¬ÔÚÒ»ÄêÎ´Íê½áµÄÊ±ºò½øÐÐÏÂÒ»ÄêµÄÔ¤²â¡£
 ## 
 ##
 
@@ -14,37 +14,37 @@ allPred<-function(ipadd,opadd,timelength,needsmooth,numjump){
 # timelength = 12
 # numjump = 0
 # needsmooth=1
-###ä½¿ç”¨Holt-Wintersæ¨¡åž‹å¹¶å¯¹æ˜¥èŠ‚æœŸé—´ç”¨ç”µé‡è¿›è¡Œä¿®æ­£çš„æ¨¡åž‹
+###Ê¹ÓÃHolt-WintersÄ£ÐÍ²¢¶Ô´º½ÚÆÚ¼äÓÃµçÁ¿½øÐÐÐÞÕýµÄÄ£ÐÍ
 library(forecast)
-#è¯»å–æ•°æ®
-##1.åŽ†å²æ•°æ®
+#¶ÁÈ¡Êý¾Ý
+##1.ÀúÊ·Êý¾Ý
 #data = read.csv(choose.files(),header = T)
-data = read.csv(paste(ipadd,"Predict/all/all.csv",sep=""),header = T,fileEncoding = "GB18030")  
+data = read.csv(paste(ipadd,"Predict/all/all.csv",sep=""),header = T)  
 
 
-##2.æ˜¥èŠ‚å½±å“æœŸï¼ˆä¸‹æ ‡ï¼Œå½±å“æœŸé¦–å°¾ä¸‹æ ‡ã€‚ç”±javaç¨‹åºæä¾›ï¼‰
+##2.´º½ÚÓ°ÏìÆÚ£¨ÏÂ±ê£¬Ó°ÏìÆÚÊ×Î²ÏÂ±ê¡£ÓÉjava³ÌÐòÌá¹©£©
 #spring = read.csv(choose.files(),header = F)
-  spring = read.csv(paste(ipadd,"Predict/all/spring.csv",sep=""),header = F,fileEncoding = "GB18030")
+  spring = read.csv(paste(ipadd,"Predict/all/spring.csv",sep=""),header = F)
 
 if(needsmooth==1){
-##3.é¢„æµ‹æœˆä»½ä¸­éœ€è¦é€†å¹³æ»‘çš„æœˆä»½åŠå¤©æ•°ï¼ˆä¸‹æ ‡ï¼Œå½±å“æœŸé¦–å°¾ä¸‹æ ‡ï¼‰
+##3.Ô¤²âÔÂ·ÝÖÐÐèÒªÄæÆ½»¬µÄÔÂ·Ý¼°ÌìÊý£¨ÏÂ±ê£¬Ó°ÏìÆÚÊ×Î²ÏÂ±ê£©
 #resmo = read.csv(choose.files(),header = F)
-  resmo = read.csv(paste(ipadd,"Predict/all/resmo.csv",sep=""),header = F,fileEncoding = "GB18030")
+  resmo = read.csv(paste(ipadd,"Predict/all/resmo.csv",sep=""),header = F)
 }
-##4.åŽ†å²æ•°æ®å¼€å§‹æ—¶é—´,é¢„æµ‹å¼€å§‹æ—¶é—´ï¼ˆå¼€å§‹æ—¶é—´ç”±javaæä¾›ï¼‰
+##4.ÀúÊ·Êý¾Ý¿ªÊ¼Ê±¼ä,Ô¤²â¿ªÊ¼Ê±¼ä£¨¿ªÊ¼Ê±¼äÓÉjavaÌá¹©£©
 #starttime = read.csv(choose.files(),header = F)
-starttime = read.csv(paste(ipadd,"Predict/all/starttime.csv",sep=""),header = F,fileEncoding = "GB18030")
+starttime = read.csv(paste(ipadd,"Predict/all/starttime.csv",sep=""),header = F)
 
 total=data[,1]
-#ç”¨16ä¸ŠåŠå¹´çœŸå®žå€¼æ£€éªŒé¢„æµ‹ç»“æžœï¼Œä¿®æ”¹å‚æ•°
-#realdata=read.csv(choose.files(),header = T) æ£€éªŒï¼Œç¡®å®šå‚æ•°
+#ÓÃ16ÉÏ°ëÄêÕæÊµÖµ¼ìÑéÔ¤²â½á¹û£¬ÐÞ¸Ä²ÎÊý
+#realdata=read.csv(choose.files(),header = T) ¼ìÑé£¬È·¶¨²ÎÊý
 #realdata=realdata[,1]
-##æ˜¥èŠ‚ç”¨ç”µé‡ä¿®æ­£
-# sj = exp(seq(-0.032,-0.012,length.out = 14))#å‚æ•°ä»å¯ä»¥ç»§ç»­è°ƒ
+##´º½ÚÓÃµçÁ¿ÐÞÕý
+# sj = exp(seq(-0.032,-0.012,length.out = 14))#²ÎÊýÈÔ¿ÉÒÔ¼ÌÐøµ÷
 # spr.smooth=c(sj[order(-sj[2:8])],sj)
   
-#å¢žåŠ åˆ°28å¤©
-sj = exp(seq(-0.03,-0.012,length.out = 14))#å‚æ•°ä»å¯ä»¥ç»§ç»­è°ƒ
+#Ôö¼Óµ½28Ìì
+sj = exp(seq(-0.03,-0.012,length.out = 14))#²ÎÊýÈÔ¿ÉÒÔ¼ÌÐøµ÷
 spr.smooth=c(sj[order(-sj[2:8])],sj)
 for(i in 1:length(spring[,1])){
   # total[spring[i,1]]=total[spring[i,1]]/cumprod(spr.smooth[spring[i,2]:spring[i,3]])[spring[i,3]-spring[i,2]+1]
@@ -53,7 +53,7 @@ for(i in 1:length(spring[,1])){
 
 
 
-##åˆ©ç”¨åŽ†å²æ•°æ®é¢„æµ‹æœªæ¥12æœˆç”¨ç”µé‡
+##ÀûÓÃÀúÊ·Êý¾ÝÔ¤²âÎ´À´12ÔÂÓÃµçÁ¿
 totalts = ts(total,frequency = 12,start = c(starttime[1,1],starttime[1,2]))
 hotmodel = HoltWinters(totalts)
 fore = forecast.HoltWinters(hotmodel,h=(timelength+numjump))
@@ -81,11 +81,11 @@ if(needsmooth==1){
 # write.csv(fore$mean,'D:\\test\\R4java\\allpred.csv',row.names = F)
 
 year = fore$mean[(numjump+1):length(fore$mean)]
-#è¾“å‡º
+#Êä³ö
 write.csv(year,paste(opadd,"Pred/all/allpred.csv",sep=""),row.names = F,fileEncoding = "GB18030")
 png(file=paste(opadd,"Pred/all/allPred.png",sep=""))
 plot(ts(c(data[,1],fore$mean),frequency = 12,start = c(starttime[1,1],starttime[1,2])),
-     main="å…¨ç¤¾ä¼šç”¨ç”µé‡åŽ†å²å€¼ä¸Žé¢„æµ‹å€¼",xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+     main="È«Éç»áÓÃµçÁ¿ÀúÊ·ÖµÓëÔ¤²âÖµ",xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
 lines(ts(fore$mean[(numjump+1):length(fore$mean)],frequency = 12,start = c(starttime[2,1],starttime[2,2])),col=2)
 dev.off()
 }

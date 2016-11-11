@@ -1,4 +1,6 @@
-
+body{
+    background-color: rgb(255, 255, 240);
+}
 
 
 /*checkbox*/
@@ -10,6 +12,7 @@ input[type="checkbox"]+.label-text{
     color:rgb(35, 35, 35);
     cursor:pointer;
     clear:both;
+    font-size: 13px;
 }
 
 input[type="checkbox"]+.label-text:hover{
@@ -44,6 +47,7 @@ form{
 
 /*checkbox*/
 
+/* panel */
 #panel{
     display: inline-block;
     position: relative;
@@ -59,6 +63,7 @@ form{
 .panel-body select{
     color:rgb(66, 66, 66);
 }
+/* panel */
 
 /*error*/
 #error{
@@ -127,7 +132,7 @@ form{
 #error-message::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3);}
 
 #error-message p{margin-top:-1px;padding-top:10px;border-top:1px solid #2e2e2e;}
-
+/*error*/
 
 #download-button:before{
     font-family: "FontAwesome";
