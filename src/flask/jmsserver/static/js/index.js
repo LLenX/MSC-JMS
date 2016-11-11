@@ -34,8 +34,14 @@ function windowOnLoad(){
 
             if ($(this).is(":checked"))
                  selectEnable($first_select);
-            else selectDisable($all_select_in_the_row);
-        })
+            else{
+                $the_first_option = $form.find("select").find("option:first");
+                $the_first_option.attr("selected", true);
+                $the_first_option.nextAll("option").attr("selected", false);
+                selectDisable($all_select_in_the_row);
+            }
+        }
+        )
     }
     function allSelectsPrepare(){
         setSelectsStyle();
