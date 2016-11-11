@@ -282,15 +282,7 @@ function windowOnLoad(){
         })
         .appendTo("#panel-body");
     }
-
-
-
-
-
-
-
-
-
+    //以下为功能性函数
 
     function selectEnable($select){
         $select.removeAttr("disabled").selectpicker("refresh");
