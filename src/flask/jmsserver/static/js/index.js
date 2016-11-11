@@ -196,6 +196,7 @@ function windowOnLoad(){
         $("#tip").text("正在上传report,请耐心等候")
         .attr("class", "alert alert-info");
         selectDisable($("#choices"));
+        $("#loading").css("display", "inline-block");
         $.ajax({
             type: "post",
             url: target_url_param,
@@ -203,9 +204,11 @@ function windowOnLoad(){
         }).done(function (res) {
             uploadConnectSucceed(res);
             selectEnable($("#choices"));
+            $("#loading").css("display", "none");
         }).fail(function (res) {
             uploadParamConnectFail();
             selectEnable($("#choices"));
+            $("#loading").css("display", "none");
         });
     }
 

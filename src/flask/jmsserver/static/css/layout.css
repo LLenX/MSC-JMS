@@ -106,9 +106,26 @@ form{
 #error-message p{margin-top:-1px;padding-top:10px;border-top:1px solid #2e2e2e;}
 
 
-#download-button{
-    width:100px;
-    height:40px;
+#download-button:before{
+    font-family: "FontAwesome";
+    content: "\f019";
+    margin-right: 5px;
+}
+
+#tip:before{
+    font-family: "FontAwesome";
+    content: "\f05a";
+    margin-right: 5px;
+}
+
+#loading{
+    display: none;
+}
+
+#choices:before{
+    font-family: "FontAwesome";
+    content: "\f093";
+    margin-right: 5px;
 }
 
 /*error*/
