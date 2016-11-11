@@ -1,0 +1,9 @@
+lawc1<-function(u)
+{
+  rank_of_credit<-u$违章用电情况*wei3[1]+u$电费缴纳情况*wei3[2]
+  lawc1<-data.frame(
+    illigal_usage=u$违章用电情况,
+    ele_fee_payment=u$电费缴纳情况,
+    rank_ofcredit=rank_of_credit
+  )
+}
