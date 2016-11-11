@@ -105,7 +105,9 @@ form{
 
 #error-message p.error-message-head{
     color:red;
-    fontsize:40px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size:15px;
 }
 
 #error-message p.error-message-head:before{
@@ -116,7 +118,9 @@ form{
 
 #error-message p.error-message-head-ok{
     color:green;
-    fontsize:40px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size:15px;
 }
 
 #error-message p.error-message-head-ok:before{
