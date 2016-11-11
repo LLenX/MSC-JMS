@@ -1,50 +1,50 @@
 allCheck<-function(ipadd,opadd,timelength,needsmooth){
 
-## ä¿®æ”¹æ—¶é—´ 7-27
-## æ ¹æ®timelengthè‡ªåŠ¨åˆ¤æ–­éœ€è¦é¢„æµ‹çš„æœˆä»½
-## ä¿®æ”¹æ—¶é—´ 7-15 å‡Œæ™¨
-## æ·»åŠ needsmoothåˆ¤æ–­æ˜¯å¦éœ€è¦å¹³æ»‘å’Œé€†å¹³æ»‘ã€‚è‹¥ä¸éœ€è¦ï¼Œåˆ™å¹³æ»‘é€†å¹³æ»‘æ“ä½œï¼Œä»¥åŠéƒ¨åˆ†çš„æ•°æ®è¯»å–éƒ½çœç•¥
+## ÐÞ¸ÄÊ±¼ä 7-27
+## ¸ù¾Ýtimelength×Ô¶¯ÅÐ¶ÏÐèÒªÔ¤²âµÄÔÂ·Ý
+## ÐÞ¸ÄÊ±¼ä 7-15 Áè³¿
+## Ìí¼ÓneedsmoothÅÐ¶ÏÊÇ·ñÐèÒªÆ½»¬ºÍÄæÆ½»¬¡£Èô²»ÐèÒª£¬ÔòÆ½»¬ÄæÆ½»¬²Ù×÷£¬ÒÔ¼°²¿·ÖµÄÊý¾Ý¶ÁÈ¡¶¼Ê¡ÂÔ
 ##
   
-###ä½¿ç”¨Holt-Wintersæ¨¡åž‹å¹¶å¯¹æ˜¥èŠ‚æœŸé—´ç”¨ç”µé‡è¿›è¡Œä¿®æ­£çš„æ¨¡åž‹
+###Ê¹ÓÃHolt-WintersÄ£ÐÍ²¢¶Ô´º½ÚÆÚ¼äÓÃµçÁ¿½øÐÐÐÞÕýµÄÄ£ÐÍ
 library(forecast)
-#è¯»å–æ•°æ®
-##1.åŽ†å²æ•°æ®
+#¶ÁÈ¡Êý¾Ý
+##1.ÀúÊ·Êý¾Ý
 # timelength = 12
 # ipadd = 'C:/Users/Nelson/Desktop/Rdata/'
 # opadd = 'D:/7-14check/'
 # needsmooth=1
 # alldata = read.csv(choose.files(),header = T)
-alldata = read.csv(paste(ipadd,"Check/all/all.csv",sep=""),header = T, fileEncoding = "GB18030")
+alldata = read.csv(paste(ipadd,"Check/all/all.csv",sep=""),header = T)
 # data = alldata[1:36,]
 data = alldata[1:(length(alldata[,1])-timelength),]
 # realdata = alldata[37:(36+timelength),]
 realdata = alldata[(length(alldata[,1])-timelength+1):length(alldata[,1]),]
 
 
-  ##2.æ˜¥èŠ‚å½±å“æœŸï¼ˆä¸‹æ ‡ï¼Œå½±å“æœŸé¦–å°¾ä¸‹æ ‡ã€‚ç”±javaç¨‹åºæä¾›ï¼‰
+  ##2.´º½ÚÓ°ÏìÆÚ£¨ÏÂ±ê£¬Ó°ÏìÆÚÊ×Î²ÏÂ±ê¡£ÓÉjava³ÌÐòÌá¹©£©
   ##
-  ##å°å¿ƒspringå’Œresmoå‡ºçŽ°ç©ºæ–‡ä»¶çš„é”™è¯¯ï¼ŒåŽæœŸè¦æ·»åŠ trycatch
+  ##Ð¡ÐÄspringºÍresmo³öÏÖ¿ÕÎÄ¼þµÄ´íÎó£¬ºóÆÚÒªÌí¼Ótrycatch
   ##
   # spring = read.csv(choose.files(),header = F)
-  spring = read.csv(paste(ipadd,"Check/all/spring.csv",sep=""),header = F,fileEncoding = "GB18030")
+  spring = read.csv(paste(ipadd,"Check/all/spring.csv",sep=""),header = F)
 
 if(needsmooth==1){
-  ##3.é¢„æµ‹æœˆä»½ä¸­éœ€è¦é€†å¹³æ»‘çš„æœˆä»½åŠå¤©æ•°ï¼ˆä¸‹æ ‡ï¼Œå½±å“æœŸé¦–å°¾ä¸‹æ ‡ï¼‰
+  ##3.Ô¤²âÔÂ·ÝÖÐÐèÒªÄæÆ½»¬µÄÔÂ·Ý¼°ÌìÊý£¨ÏÂ±ê£¬Ó°ÏìÆÚÊ×Î²ÏÂ±ê£©
   # resmo = read.csv(choose.files(),header = F)
-  resmo = read.csv(paste(ipadd,"Check/all/resmo.csv",sep=""),header = F,fileEncoding = "GB18030")
+  resmo = read.csv(paste(ipadd,"Check/all/resmo.csv",sep=""),header = F)
 }
 
-##4.åŽ†å²æ•°æ®å¼€å§‹æ—¶é—´,é¢„æµ‹å¼€å§‹æ—¶é—´ï¼ˆå¼€å§‹æ—¶é—´ç”±javaæä¾›ï¼‰
+##4.ÀúÊ·Êý¾Ý¿ªÊ¼Ê±¼ä,Ô¤²â¿ªÊ¼Ê±¼ä£¨¿ªÊ¼Ê±¼äÓÉjavaÌá¹©£©
 # starttime = read.csv(choose.files(),header = F)
-starttime = read.csv(paste(ipadd,"Check/all/starttime.csv",sep=""),header = F,fileEncoding = "GB18030")
+starttime = read.csv(paste(ipadd,"Check/all/starttime.csv",sep=""),header = F)
 
 total=data
-#ç”¨16ä¸ŠåŠå¹´çœŸå®žå€¼æ£€éªŒé¢„æµ‹ç»“æžœï¼Œä¿®æ”¹å‚æ•°
-#realdata=read.csv(choose.files(),header = T) æ£€éªŒï¼Œç¡®å®šå‚æ•°
+#ÓÃ16ÉÏ°ëÄêÕæÊµÖµ¼ìÑéÔ¤²â½á¹û£¬ÐÞ¸Ä²ÎÊý
+#realdata=read.csv(choose.files(),header = T) ¼ìÑé£¬È·¶¨²ÎÊý
 #realdata=realdata[,1]
-##æ˜¥èŠ‚ç”¨ç”µé‡ä¿®æ­£
-sj = exp(seq(-0.03,-0.012,length.out = 14))#å‚æ•°ä»å¯ä»¥ç»§ç»­è°ƒ
+##´º½ÚÓÃµçÁ¿ÐÞÕý
+sj = exp(seq(-0.03,-0.012,length.out = 14))#²ÎÊýÈÔ¿ÉÒÔ¼ÌÐøµ÷
 # sj = exp(seq(-0.03,-0.008,length.out = 18))
 spr.smooth=c(sj[order(-sj[2:8])],sj)
   
@@ -55,7 +55,7 @@ for(i in 1:length(spring[,1])){
 
 
 
-##åˆ©ç”¨åŽ†å²æ•°æ®é¢„æµ‹æœªæ¥12æœˆç”¨ç”µé‡
+##ÀûÓÃÀúÊ·Êý¾ÝÔ¤²âÎ´À´12ÔÂÓÃµçÁ¿
 totalts = ts(total,frequency = 12,start = c(starttime[1,1],starttime[1,2]))
 hotmodel = HoltWinters(totalts)
 fore = forecast.HoltWinters(hotmodel,h=timelength)
@@ -84,24 +84,24 @@ sumerr=abs(sum(fore$mean[1:timelength])-sum(realdata))/sum(realdata)
 
 # write.csv(fore$mean,'D:\\test\\R4java\\allpred.csv',row.names = F)
 monthcheck.frame = data.frame(starttime[2,2]:(starttime[2,2]+timelength-1),fore$mean,realdata,bias)
-colnames(monthcheck.frame)=c("æœˆä»½","é¢„æµ‹å€¼","çœŸå®žå€¼","æœˆè¯¯å·®")
+colnames(monthcheck.frame)=c("ÔÂ·Ý","Ô¤²âÖµ","ÕæÊµÖµ","ÔÂÎó²î")
 all.frame = data.frame(mb,sumerr)
-colnames(all.frame) = c("æœˆå¹³å‡è¯¯å·®","æ€»è¯¯å·®")
+colnames(all.frame) = c("ÔÂÆ½¾ùÎó²î","×ÜÎó²î")
 
-##è¾“å‡º
+##Êä³ö
 write.csv(monthcheck.frame,paste(opadd,"PCheck/all/monthcheck.csv",sep=""),row.names = F,fileEncoding = "GB18030")
 write.csv(all.frame,paste(opadd,"PCheck/all/allcheck.csv",sep=""),row.names = F,fileEncoding = "GB18030")
 png(file=paste(opadd,"PCheck/all/monthbias.png",sep=""))
 
 # plot(ts(realdata,frequency = 12,start = c(starttime[2,1],starttime[2,2])),
-      # main="å…¨ç¤¾ä¼šç”¨ç”µé‡é¢„æµ‹å€¼ä¸ŽçœŸå®žå€¼",xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+      # main="È«Éç»áÓÃµçÁ¿Ô¤²âÖµÓëÕæÊµÖµ",xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
 #lines(ts(fore$mean,frequency = 12,start = c(starttime[2,1],starttime[2,2])),col=2)
 ts1<-ts(realdata,frequency = 12,start = c(starttime[2,1],starttime[2,2]))
 ts2<-ts(fore$mean,frequency = 12,start = c(starttime[2,1],starttime[2,2]))
 ymax<-max(c(realdata,fore$mean))
 ymin<-min(c(realdata,fore$mean))
 plot(as.Date(ts1),realdata,type="l",ylim=c(ymin,ymax),xaxt = "n",
-     main="å…¨ç¤¾ä¼šç”¨ç”µé‡é¢„æµ‹å€¼ä¸ŽçœŸå®žå€¼",xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+     main="È«Éç»áÓÃµçÁ¿Ô¤²âÖµÓëÕæÊµÖµ",xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
 axis(1,at=as.Date(ts1),labels = format(as.Date(ts1),"%Y-%m"))
 lines(as.Date(ts2),fore$mean,type="l",col=2)
 

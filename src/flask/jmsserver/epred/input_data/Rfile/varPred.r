@@ -1,22 +1,22 @@
 varPred<-function(ipadd,opadd,needsmooth){
 
 ##
-## æ—¶é—´ï¼š7-14 ç»Ÿä¸€è¾“å‡ºç¼–ç ï¼Œå¢åŠ å®šé‡åˆ†æç»“æœçš„è¾“å‡º
-## æ·»åŠ æ§åˆ¶æ˜¯å¦è¿›è¡Œå¹³æ»‘å¤„ç†çš„å‚æ•°needsmooth
+## Ê±¼ä£º7-14 Í³Ò»Êä³ö±àÂë£¬Ôö¼Ó¶¨Á¿·ÖÎö½á¹ûµÄÊä³ö
+## Ìí¼Ó¿ØÖÆÊÇ·ñ½øĞĞÆ½»¬´¦ÀíµÄ²ÎÊıneedsmooth
 ##
 # ipadd = "C:/Users/Nelson/Desktop/Rdata/"
 # opadd = "D:/test/R4java/"
-#è¯»å–æ•°æ®
+#¶ÁÈ¡Êı¾İ
 # var_data = read.csv(choose.files(),header = T)
-var_data = read.csv(paste(ipadd,"Predict/var/var.csv",sep=""),header = T, fileEncoding = "GB18030") 
+var_data = read.csv(paste(ipadd,"Predict/var/var.csv",sep=""),header = T) 
 
-  #éœ€è¦æ˜¥èŠ‚å¹³æ»‘çš„æ•°æ®
+  #ĞèÒª´º½ÚÆ½»¬µÄÊı¾İ
   # spring = read.csv(choose.files(),header = F)
-  spring = read.csv(paste(ipadd,"Predict/var/spring.csv",sep=""),header = F, fileEncoding = "GB18030")
+  spring = read.csv(paste(ipadd,"Predict/var/spring.csv",sep=""),header = F)
 if(needsmooth==1){
-  #éœ€è¦é€†å¹³æ»‘çš„æ•°æ®
+  #ĞèÒªÄæÆ½»¬µÄÊı¾İ
   # resmo = read.csv(choose.files(),header = F)
-  resmo = read.csv(paste(ipadd,"Predict/var/resmo.csv",sep=""),header = F,fileEncoding = "GB18030")
+  resmo = read.csv(paste(ipadd,"Predict/var/resmo.csv",sep=""),header = F)
 }
 
 #Granger test
@@ -24,8 +24,8 @@ if(needsmooth==1){
 #lag3 = granger.test(var_data[1:24,1:5],3)
 #fix(lag3)
 # starttime = read.csv(choose.files(),header = F)
-starttime = read.csv(paste(ipadd,"Predict/var/starttime.csv",sep=""),header = F,fileEncoding = "GB18030")
-#å¹³æ»‘æ•°æ® å…¨ç¤¾ä¼šç”¨ç”µé‡
+starttime = read.csv(paste(ipadd,"Predict/var/starttime.csv",sep=""),header = F)
+#Æ½»¬Êı¾İ È«Éç»áÓÃµçÁ¿
 var_data.copy=var_data
 
 sj = exp(seq(-0.03,-0.012,length.out = 14))
@@ -36,10 +36,10 @@ for(i in 1:length(spring[,1])){
 
 
 
-#ç”¨dseåŒ…æ‹Ÿåˆæ•°æ®
+#ÓÃdse°üÄâºÏÊı¾İ
 library(dse)
-#ip æ—¶åºåŒ–çš„é©±åŠ¨å› ç´ 
-#op æ—¶åºåŒ–çš„ç”¨ç”µé‡
+#ip Ê±Ğò»¯µÄÇı¶¯ÒòËØ
+#op Ê±Ğò»¯µÄÓÃµçÁ¿
 #ip<-ts(var_data[1:24,2:5],frequency = 12,start = c(starttime[1,1],starttime[1,2]))
 #op<-ts(var_data[1:24,1],frequency = 12,start=c(starttime,1))
 ip<-ts(var_data[,2:5],frequency = 12,start = c(starttime[1,1],starttime[1,2]))
@@ -51,12 +51,12 @@ var_model = estVARXls(modeldata,max.lag = 3)
 # bias_fitting = abs(var_resid$residuals)/var_data[1:22,1]
 # bias_fitting
 # mean(bias_fitting[4:22])
-#è¿›è¡Œé¢„æµ‹
+#½øĞĞÔ¤²â
 var_fore1 = dse::forecast(var_model,conditioning.inputs = ip)
 # bias_fore1 = (var_fore1$forecast[[1]]-var_data[23:24,1])/var_data[23:24,1]
 # bias_fore1
 
-# éšæœºæ‰°åŠ¨æµ‹è¯•ç¨³å®šæ€§
+# Ëæ»úÈÅ¶¯²âÊÔÎÈ¶¨ĞÔ
 # num_outliners_0.05 = rep(0,30)
 # num_outliners_0.1 = rep(0,30)
 # for (ii in 1:30)
@@ -74,12 +74,12 @@ var_fore1 = dse::forecast(var_model,conditioning.inputs = ip)
 # num_outliners_0.1[ii] = length(which(abs(random_bias)>0.1))
 # }
 
-#ä½œå›¾
+#×÷Í¼
 #plot(op)
 #lines(var_fore1$pred,col=2)
 #lines(var_fore1$forecast[[1]],col=2)
 
-#å…ˆåˆ©ç”¨Holt-winteré¢„æµ‹ç»æµæ•°æ®
+#ÏÈÀûÓÃHolt-winterÔ¤²â¾­¼ÃÊı¾İ
 library(forecast)
 # new_ip = var_data[,2:5]
 # new_ip=matrix(0,nrow=length(var_data[,1])+6,ncol=length(var_data[,2:5]))
@@ -102,9 +102,9 @@ if(needsmooth==1){
 }
 
 
-##è¾“å‡ºç»“æœ
-#1.å…­ä¸ªæœˆé¢„æµ‹å€¼
-#2.æ–¹ç¨‹å‚æ•°
+##Êä³ö½á¹û
+#1.Áù¸öÔÂÔ¤²âÖµ
+#2.·½³Ì²ÎÊı
 varpred = var_fore2
 varY=as.vector(var_model$model$A)
 coefX=as.vector(var_model$model$C)
@@ -113,15 +113,15 @@ varX2=coefX[4:6]
 varX3=coefX[7:9]
 varX4=coefX[10:12]
 var.frame=data.frame(varpred)
-colnames(var.frame)=c("varé¢„æµ‹ç»“æœ")
+colnames(var.frame)=c("varÔ¤²â½á¹û")
 coef.frame=data.frame(varY,c(0,varX1),c(0,varX2),c(0,varX3),c(0,varX4))
-# write.csv(var.frame,"D:\\test\\R4java\\VARåˆ†æ\\varpred.csv")
-# write.csv(coef.frame,"D:\\test\\R4java\\VARåˆ†æ\\varcoef.csv")
-# write.csv(var.frame,paste(opadd,"VarAna/varpred.csv",sep=""),fileEncoding = "UTF-8")
-# write.csv(coef.frame,paste(opadd,"VarAna/varcoef.csv",sep=""),fileEncoding = "UTF-8")
+# write.csv(var.frame,"D:\\test\\R4java\\VAR·ÖÎö\\varpred.csv")
+# write.csv(coef.frame,"D:\\test\\R4java\\VAR·ÖÎö\\varcoef.csv")
+# write.csv(var.frame,paste(opadd,"VARAna/varpred.csv",sep=""),fileEncoding = "UTF-8")
+# write.csv(coef.frame,paste(opadd,"VARAna/varcoef.csv",sep=""),fileEncoding = "UTF-8")
 
-#è®¡é‡åˆ†æ
-mcoefY = mean(varY[2:4])#å†å²ç”¨ç”µé‡ç³»æ•°çš„å‡å€¼
+#¼ÆÁ¿·ÖÎö
+mcoefY = mean(varY[2:4])#ÀúÊ·ÓÃµçÁ¿ÏµÊıµÄ¾ùÖµ
 mcoefX1 = mean(varX1)
 mcoefX2 = mean(varX2)
 mcoefX3 = mean(varX3)
@@ -141,23 +141,23 @@ influ.X3 = abs((Ybase+mcoefX3*meanY*0.1)-Ybase)/Ybase
 influ.X4 = abs((Ybase+mcoefX4*meanY*0.1)-Ybase)/Ybase
 influ.pow = c(influ.X1,influ.X2,influ.X3,influ.X4)
 influ.frame = data.frame(influ.pow)
-# write.csv(influ.frame,paste(opadd,"VarAna/ftinflu.csv",sep=""),fileEncoding = "UTF-8")
+# write.csv(influ.frame,paste(opadd,"VARAna/ftinflu.csv",sep=""),fileEncoding = "UTF-8")
 #error_fore2 = var_fore2-var_data[23:28,1]
 #bias_fore2 = abs(error_fore2)/var_data[23:28,1]
 #bias_fore2
 #mean(bias_fore2)
 #sum(error_fore2)/sum(var_data[23:28,1])
-#ä½œå›¾
+#×÷Í¼
 #plot(var_data[23:28,1],type = "l")
 #lines(var_fore2,col=2)
 
 
-##è¾“å‡º
-write.csv(var.frame,paste(opadd,"VarAna/varpred.csv",sep=""),fileEncoding = "GB18030")
-write.csv(coef.frame,paste(opadd,"VarAna/varcoef.csv",sep=""),fileEncoding = "GB18030")
-write.csv(influ.frame,paste(opadd,"VarAna/ftinflu.csv",sep=""),fileEncoding = "GB18030")
-png(file=paste(opadd,"VarAna/varé¢„æµ‹ç»“æœ.png",sep=""))
-plot(ts(c(var_data.copy[,1],var_fore2),frequency = 12,start = c(starttime[1,1],starttime[1,2])),main='VARæ¨¡å‹é¢„æµ‹ç»“æœ',xlab="æ—¶é—´",ylab="ç”¨ç”µé‡")
+##Êä³ö
+write.csv(var.frame,paste(opadd,"VARAna/varpred.csv",sep=""),fileEncoding = "GB18030")
+write.csv(coef.frame,paste(opadd,"VARAna/varcoef.csv",sep=""),fileEncoding = "GB18030")
+write.csv(influ.frame,paste(opadd,"VARAna/ftinflu.csv",sep=""),fileEncoding = "GB18030")
+png(file=paste(opadd,"VarAna/varÔ¤²â½á¹û.png",sep=""))
+plot(ts(c(var_data.copy[,1],var_fore2),frequency = 12,start = c(starttime[1,1],starttime[1,2])),main='VARÄ£ĞÍÔ¤²â½á¹û',xlab="Ê±¼ä",ylab="ÓÃµçÁ¿")
 lines(ts(var_fore2,frequency = 12,start = c(starttime[2,1],starttime[2,2])),col=2)
 dev.off()
 }

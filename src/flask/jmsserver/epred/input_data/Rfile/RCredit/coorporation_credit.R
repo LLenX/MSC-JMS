@@ -1,10 +1,10 @@
 coorc<-function(u)
 {
   
-  n<-1#å‚ä¸Žè¯„ä¼°çš„å°ç»„ä¸ªæ•°
-  lamda<-c(0.5)#å‚ä¸Žè¯„ä¼°çš„å°ç»„çš„æƒé‡
-  rank_of_coorporation<-c(0)#åˆå§‹åŒ–æ¯ä¸ªå°ç»„çš„æ€»è¯„åˆ†
-  #åˆå§‹åŒ–å•é¡¹è¯„åˆ†
+  n<-1#²ÎÓëÆÀ¹ÀµÄÐ¡×é¸öÊý
+  lamda<-c(0.5)#²ÎÓëÆÀ¹ÀµÄÐ¡×éµÄÈ¨ÖØ
+  rank_of_coorporation<-c(0)#³õÊ¼»¯Ã¿¸öÐ¡×éµÄ×ÜÆÀ·Ö
+  #³õÊ¼»¯µ¥ÏîÆÀ·Ö
   a1<-c(0)
   a2<-c(0)
   a3<-c(0)
@@ -12,9 +12,9 @@ coorc<-function(u)
   for (i in 1:n)
   {
     
-    a1[i]<-u$è°ƒåº¦åˆä½œè®°å½•
-    a2[i]<-u$éœ€æ±‚ä¾§ç®¡ç†
-    a3[i]<-u$ç”µè´¹é€€è¡¥è®°å½•
+    a1[i]<-u$µ÷¶ÈºÏ×÷¼ÇÂ¼
+    a2[i]<-u$ÐèÇó²à¹ÜÀí
+    a3[i]<-u$µç·ÑÍË²¹¼ÇÂ¼
     
   }
   a1<-as.numeric(a1)
@@ -28,9 +28,9 @@ coorc<-function(u)
   a3=t(as.matrix(a3))%*%as.matrix(lamda)
   
   coorc<-data.frame(
-    sche_coor=a1,#è°ƒåº¦åˆä½œè®°å½•
-    DSM=a2,#éœ€æ±‚ä¾§ç®¡ç†
-    ele_fee_charge=a3,#ç”µè´¹é€€è¡¥è®°å½•
+    sche_coor=a1,#µ÷¶ÈºÏ×÷¼ÇÂ¼
+    DSM=a2,#ÐèÇó²à¹ÜÀí
+    ele_fee_charge=a3,#µç·ÑÍË²¹¼ÇÂ¼
     rank_ofsafty=rank_of_safty
   )
   

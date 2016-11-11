@@ -1,17 +1,17 @@
 expr<-function(n,m)
 {
-  #næ˜¯ä¸“å®¶çš„ä¸ªæ•°
-  #mæ˜¯å˜é‡çš„ä¸ªæ•°
+  #nÊÇ×¨¼ÒµÄ¸öÊý
+  #mÊÇ±äÁ¿µÄ¸öÊý
   df<-matrix(0,n,m)
   
   print("Please enter whether you want to edit the experience matrix! 1 for yes, 0 for no.")
   K<-readline()
   
   if(K==1)
-    df<-edit(df)#è¾“å…¥çš„æ˜¯æ¯ä¸ªå› å­
+    df<-edit(df)#ÊäÈëµÄÊÇÃ¿¸öÒò×Ó
   
   
-  weight<-matrix(0,m,1)#åˆå§‹åŒ–æƒé‡
+  weight<-matrix(0,m,1)#³õÊ¼»¯È¨ÖØ
   
   for (i in 1:m)
   {

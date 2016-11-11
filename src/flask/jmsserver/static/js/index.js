@@ -17,7 +17,7 @@ function windowOnLoad(){
 
     var file_collection = [];
     var target_url_param = "/upload_param";
-    var target_url_revise = "/upload_revise";
+    var target_url_revise = "/revise";
     var target_url_report = "/download_report";
     var choices = {};
     var revise_data = {};
@@ -60,12 +60,16 @@ function windowOnLoad(){
         //每一行前面的选完了后面才可选
         $("select").on("change", function() {
             var $selected_option = $(this).find("option:selected");
+            var $selects_after = $(this).parent().nextAll().children("select");
             if ($selected_option.text() == "请选择") {
-                var $selects_after = $(this).parent().nextAll().children("select");
+                $selects_after = $(this).parent().nextAll().children("select");
                 selectDisable($select_after);
             }
             else {
-                $select_after = $(this).parent().next().children("select");
+                var $select_after = $(this).parent().next().children("select");
+                var $option_first_after_this_select = $selects_after.find("option:first");
+                $option_first_after_this_select.attr("selected", true);
+                $option_first_after_this_select.nextAll("option").attr("selected", false);
                 selectEnable($select_after);
             }
         });
@@ -77,10 +81,8 @@ function windowOnLoad(){
             var $text_of_selected_option = $selected_option.text();
             var $next_btn_group = $(this).parent().next().next();
             var $third_select = $next_btn_group.find("select");
-            var $fourth_select = $next_btn_group.next().find("select");
             var appendOptionForThirdSelect = appendOption.bind($third_select);
 
-            selectDisable($fourth_select);
             $third_select.children().remove();
             appendOptionForThirdSelect("请选择");
 
@@ -124,6 +126,7 @@ function windowOnLoad(){
             }
             $fourth_select.selectpicker("refresh");
         })
+
     }
 
     function uploadParamButtonPrepare(){
@@ -196,6 +199,7 @@ function windowOnLoad(){
         $("#tip").text("正在上传report,请耐心等候")
         .attr("class", "alert alert-info");
         selectDisable($("#choices"));
+        $("#loading").css("display", "inline-block");
         $.ajax({
             type: "post",
             url: target_url_param,
@@ -203,9 +207,11 @@ function windowOnLoad(){
         }).done(function (res) {
             uploadConnectSucceed(res);
             selectEnable($("#choices"));
+            $("#loading").css("display", "none");
         }).fail(function (res) {
             uploadParamConnectFail();
             selectEnable($("#choices"));
+            $("#loading").css("display", "none");
         });
     }
 
@@ -217,36 +223,16 @@ function windowOnLoad(){
 
         $error_message.children().remove();
 
-        if (res.predict && res.predict.success == false){
-            var $predict_message = $("<div></div>").attr("id", "predict-message");
-            $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
-            for (var error in res.predict.message){
-                $("<p></p>").text(error + res.predict.message[error]).appendTo($predict_message);
-            }
-            $predict_message.appendTo($error_message);
-        }
-
-        if (res.check && res.check.success == false){
-            var $check_message = $("<div></div>").attr("id", "check-message");
-            $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
-            for (var error in res.check.message){
-                $("<p></p>").text(error + res.check.message[error]).appendTo($check_message);
-            }
-            $check_message.appendTo($error_message);
-        }
-
-        if (res.analyze && res.analyze.success == false){
-            var $analyze_message = $("<div></div>").attr("id", "analyze-message");
-            $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
-            for (var error in res.analyze.message){
-                $("<p></p>").text(error + res.analyze.message[error]).appendTo($analyze_message);
-            }
-            $analyze_message.appendTo($error_message);
-        }
+        if (res.predict)
+            appendErrorMessages(res.predict.success, "predict", res);
+        if (res.check)
+            appendErrorMessages(res.check.success, "check", res);
+        if (res.analyze)
+            appendErrorMessages(res.analyze.success, "analyze", res);
         if (res.predict && res.predict.success == false 
         ||  res.check  && res.check.success   == false
         ||  res.analyze  && res.analyze.success == false){
-            $("#tip").text("计算失败.")
+            $("#tip").text("计算失败。请查看错误信息并确保数据的输入充足。")
             .attr("class", "alert alert-danger");
         }
         else uploadParamSucceed();
@@ -281,6 +267,17 @@ function windowOnLoad(){
             $(this).remove();
         })
         .appendTo(".panel-body");
+    }
+
+    function appendErrorMessages(success, str, res){
+        var $error_message = $("#error-message");
+        $("<p></p>")
+        .text(str + (success ? "成功，调试信息:" : "失败，错误信息"))
+        .attr("class", success ? "error-message-head-ok" : "error-message-head")
+        .appendTo($error_message);
+        for (var error in res[str].message){
+            $("<p></p>").text(error + res[str].message[error]).appendTo($error_message);
+        }
     }
     //以下为功能性函数
 

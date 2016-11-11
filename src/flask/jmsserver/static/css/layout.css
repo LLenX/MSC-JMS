@@ -1,4 +1,6 @@
-
+body{
+    background-color: rgb(255, 255, 240);
+}
 
 
 /*checkbox*/
@@ -7,9 +9,10 @@ input[type="checkbox"]{
 }
 
 input[type="checkbox"]+.label-text{
-    color:rgb(35, 35, 35);
+    color:rgb(247, 147, 30);
     cursor:pointer;
     clear:both;
+    font-size: 13px;
 }
 
 input[type="checkbox"]+.label-text:hover{
@@ -23,7 +26,7 @@ input[type="checkbox"]:checked+.label-text{
 input[type="checkbox"]+.label-text:before{
     font-family: "FontAwesome";
     content: "\f096";
-    color:rgb(35, 35, 35);
+    color:grey;
     margin-right:3px;
     
 }
@@ -44,6 +47,7 @@ form{
 
 /*checkbox*/
 
+/* panel */
 #panel{
     display: inline-block;
     position: relative;
@@ -59,6 +63,7 @@ form{
 .panel-body select{
     color:rgb(66, 66, 66);
 }
+/* panel */
 
 /*error*/
 #error{
@@ -94,7 +99,34 @@ form{
     width:100%;
     overflow:hidden;
     color:white;
+    text-align: center;
     word-wrap:break-word;
+}
+
+#error-message p.error-message-head{
+    color:red;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size:15px;
+}
+
+#error-message p.error-message-head:before{
+    font-family: "FontAwesome";
+    content: "\f06a";
+    margin-right: 5px;
+}
+
+#error-message p.error-message-head-ok{
+    color:green;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size:15px;
+}
+
+#error-message p.error-message-head-ok:before{
+    font-family: "FontAwesome";
+    content: "\f00c";
+    margin-right: 5px;
 }
 
 #error-message::-webkit-scrollbar{width:10px;background:none;}
@@ -104,12 +136,38 @@ form{
 #error-message::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3);}
 
 #error-message p{margin-top:-1px;padding-top:10px;border-top:1px solid #2e2e2e;}
+/*error*/
 
-
-#download-button{
-    width:100px;
-    height:40px;
+#download-button:before{
+    font-family: "FontAwesome";
+    content: "\f019";
+    margin-left: 5px;
+    margin-right: 5px;
 }
+
+#tip:before{
+    font-family: "FontAwesome";
+    content: "\f05a";
+    margin-right: 5px;
+}
+
+#loading{
+    display: none;
+}
+
+#choices:before{
+    font-family: "FontAwesome";
+    content: "\f093";
+    margin-right: 5px;
+}
+
+#error-head:before{
+    font-family: "FontAwesome";
+    content: "\f03a";
+    margin-right: 5px;
+}
+
+
 
 /*error*/
 
