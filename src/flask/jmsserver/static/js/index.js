@@ -220,32 +220,12 @@ function windowOnLoad(){
 
         $error_message.children().remove();
 
-        if (res.predict && res.predict.success == false){
-            var $predict_message = $("<div></div>").attr("id", "predict-message");
-            $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
-            for (var error in res.predict.message){
-                $("<p></p>").text(error + res.predict.message[error]).appendTo($predict_message);
-            }
-            $predict_message.appendTo($error_message);
-        }
-
-        if (res.check && res.check.success == false){
-            var $check_message = $("<div></div>").attr("id", "check-message");
-            $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
-            for (var error in res.check.message){
-                $("<p></p>").text(error + res.check.message[error]).appendTo($check_message);
-            }
-            $check_message.appendTo($error_message);
-        }
-
-        if (res.analyze && res.analyze.success == false){
-            var $analyze_message = $("<div></div>").attr("id", "analyze-message");
-            $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
-            for (var error in res.analyze.message){
-                $("<p></p>").text(error + res.analyze.message[error]).appendTo($analyze_message);
-            }
-            $analyze_message.appendTo($error_message);
-        }
+        if (res.predict)
+            appendErrorMessages(res.predict.success, "predict", res);
+        if (res.check)
+            appendErrorMessages(res.check.success, "check", res);
+        if (res.analyze)
+            appendErrorMessages(res.analyze.success, "analyze", res);
         if (res.predict && res.predict.success == false 
         ||  res.check  && res.check.success   == false
         ||  res.analyze  && res.analyze.success == false){
@@ -284,6 +264,17 @@ function windowOnLoad(){
             $(this).remove();
         })
         .appendTo(".panel-body");
+    }
+
+    function appendErrorMessages(success, str, res){
+        var $error_message = $("#error-message");
+        $("<p></p>")
+        .text(str + (success ? "成功，调试信息:" : "失败，错误信息"))
+        .attr("class", success ? "error-message-head-ok" : "error-message-head")
+        .appendTo($error_message);
+        for (var error in res[str].message){
+            $("<p></p>").text(error + res[str].message[error]).appendTo($error_message);
+        }
     }
     //以下为功能性函数
 

@@ -94,7 +94,30 @@ form{
     width:100%;
     overflow:hidden;
     color:white;
+    text-align: center;
     word-wrap:break-word;
+}
+
+#error-message p.error-message-head{
+    color:red;
+    fontsize:40px;
+}
+
+#error-message p.error-message-head:before{
+    font-family: "FontAwesome";
+    content: "\f06a";
+    margin-right: 5px;
+}
+
+#error-message p.error-message-head-ok{
+    color:green;
+    fontsize:40px;
+}
+
+#error-message p.error-message-head-ok:before{
+    font-family: "FontAwesome";
+    content: "\f00c";
+    margin-right: 5px;
 }
 
 #error-message::-webkit-scrollbar{width:10px;background:none;}
@@ -127,6 +150,14 @@ form{
     content: "\f093";
     margin-right: 5px;
 }
+
+#error-head:before{
+    font-family: "FontAwesome";
+    content: "\f03a";
+    margin-right: 5px;
+}
+
+
 
 /*error*/
 
