@@ -105,6 +105,12 @@ form{
 
 #error-message p{margin-top:-1px;padding-top:10px;border-top:1px solid #2e2e2e;}
 
+
+#download-button{
+    width:100px;
+    height:40px;
+}
+
 /*error*/
 
 
