@@ -3,6 +3,7 @@ from jmsserver.Form import Form
 import jmsserver.EpredOption as EpOp
 from zipfile import ZipFile
 import flask, os, json
+from jmsserver.database.JmsDAO import JmsDAO
 
 jms_server = flask.Flask(__name__)
 
@@ -22,6 +23,8 @@ jms_server.config['REPORT_ZIP_DIR'] = os.path.join(
     jms_server.root_path, 'report/')
 
 jms_server.config['REPORT_ZIP_NAME'] = 'report.zip'
+
+jms_server.config['DATABASE_NAME'] = 'jms'
 
 
 @jms_server.route('/')
@@ -56,13 +59,15 @@ def _ensure_directories():
 
 
 def _perform_task(option_set, year, report_zip):
-    caller = Caller(jms_server.config['JAR_EXECUTABLE_DIR'],
-                    jms_server.config['INPUT_DATA_DIR'],
-                    jms_server.config['OUTPUT_FILE_DIR'])
+    caller = Caller(
+        jms_server.config['JAR_EXECUTABLE_DIR'],
+        jms_server.config['INPUT_DATA_DIR'],
+        jms_server.config['OUTPUT_FILE_DIR'])
 
     task_option = EpOp.get_task(option_set)
-    task_name = {EpOp.TASK_PREDICT: 'predict', EpOp.TASK_ANALYZE: 'analyze',
-                 EpOp.TASK_PRECISION_CHECK: 'check'}[task_option]
+    task_name = {
+        EpOp.TASK_PREDICT: 'predict', EpOp.TASK_ANALYZE: 'analyze',
+        EpOp.TASK_PRECISION_CHECK: 'check'}[task_option]
 
     task_result = {}
     success = False
@@ -80,9 +85,6 @@ def _perform_task(option_set, year, report_zip):
 @jms_server.route('/upload_param', methods=['POST'])
 def do_prediction():
     _ensure_directories()
-    
-    form = Form(flask.request.form)
-    option_list = form.get_options()
 
     result_json = {}
     success = True
@@ -91,12 +93,22 @@ def do_prediction():
             os.path.join(
                 jms_server.config['REPORT_ZIP_DIR'],
                 jms_server.config['REPORT_ZIP_NAME']), 'w') as report_zip:
+
+        option_list = Form(flask.request.form).get_options()
+
+        database_access_obj = JmsDAO(
+            db_name=jms_server.config['DATABASE_NAME'],
+            username=jms_server.config['DATABASE_USERNAME'],
+            password=jms_server.config['DATABASE_PASSWORD'])
+
         for option_set, year in option_list:
-            print(option_set, year)
-            # TODO read from database
+            db_helper = database_access_obj.get_data_helper(option_set)
+            db_helper.prepare_input_files(jms_server.config['INPUT_DATA_DIR'])
+
             task_result, success = _perform_task(option_set, year, report_zip)
             result_json.update(task_result)
-            # TODO write to database
+
+            db_helper.collect_output_files(jms_server.config['OUTPUT_FILE_DIR'])
 
     return json.dumps(result_json), 200
 
