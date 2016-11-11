@@ -1,6 +1,5 @@
 import mysql.connector
 from .JmsDataHelper import JmsDataHelper
-import EpredOption
 
 """
 Jms Database Access Object
