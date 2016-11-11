@@ -41,4 +41,4 @@ if __name__ == '__main__':
 
     jms_server.config['DATABASE_PASSWORD'] = getpass('password for db: ')
 
-    jms_server.run(debug=True, port=port, host=host)
+    jms_server.run(debug=False, port=port, host=host)
