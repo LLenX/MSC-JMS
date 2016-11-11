@@ -232,7 +232,7 @@ function windowOnLoad(){
         if (res.predict && res.predict.success == false 
         ||  res.check  && res.check.success   == false
         ||  res.analyze  && res.analyze.success == false){
-            $("#tip").text("计算失败.")
+            $("#tip").text("计算失败。请查看错误信息并确保数据的输入充足。")
             .attr("class", "alert alert-danger");
         }
         else uploadParamSucceed();
