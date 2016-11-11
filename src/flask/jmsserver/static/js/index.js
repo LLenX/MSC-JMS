@@ -60,12 +60,16 @@ function windowOnLoad(){
         //每一行前面的选完了后面才可选
         $("select").on("change", function() {
             var $selected_option = $(this).find("option:selected");
+            var $selects_after = $(this).parent().nextAll().children("select");
             if ($selected_option.text() == "请选择") {
-                var $selects_after = $(this).parent().nextAll().children("select");
+                $selects_after = $(this).parent().nextAll().children("select");
                 selectDisable($select_after);
             }
             else {
-                $select_after = $(this).parent().next().children("select");
+                var $select_after = $(this).parent().next().children("select");
+                var $option_first_after_this_select = $selects_after.find("option:first");
+                $option_first_after_this_select.attr("selected", true);
+                $option_first_after_this_select.nextAll("option").attr("selected", false);
                 selectEnable($select_after);
             }
         });
@@ -77,10 +81,8 @@ function windowOnLoad(){
             var $text_of_selected_option = $selected_option.text();
             var $next_btn_group = $(this).parent().next().next();
             var $third_select = $next_btn_group.find("select");
-            var $fourth_select = $next_btn_group.next().find("select");
             var appendOptionForThirdSelect = appendOption.bind($third_select);
 
-            selectDisable($fourth_select);
             $third_select.children().remove();
             appendOptionForThirdSelect("请选择");
 
@@ -124,6 +126,7 @@ function windowOnLoad(){
             }
             $fourth_select.selectpicker("refresh");
         })
+
     }
 
     function uploadParamButtonPrepare(){
