@@ -4,6 +4,7 @@ from jmsserver import jms_server
 import os
 import sys
 import json
+from getpass import getpass
 # from getopt import gnu_getopt
 
 def start_r_server():
@@ -38,6 +39,6 @@ if __name__ == '__main__':
     jms_server.config['DATABASE_USERNAME'] = config_dict.get(
         'database_username') or 'root'
 
-    jms_server.config['DATABASE_PASSWORD'] = input('password for db: ')
+    jms_server.config['DATABASE_PASSWORD'] = getpass('password for db: ')
 
     jms_server.run(debug=True, port=port, host=host)

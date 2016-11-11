@@ -149,7 +149,7 @@ class Caller:
         for line in lines:
             match_result = log_pattern.match(line)
             if match_result:
-                result_lines.append('[%s]%s' % (
+                result_lines.append('[%s] %s' % (
                     match_result.group(1), match_result.group(2)))
 
         return result_lines

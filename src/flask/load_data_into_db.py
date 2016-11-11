@@ -3,6 +3,7 @@ from jmsserver.database.JmsDAO import JmsDAO
 import sys
 import json
 import os
+from getpass import getpass
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -35,7 +36,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     try:
-        password = input('password for db:')
+        password = getpass('password for db:')
         jms_data_obj = JmsDAO(
             db_name=db_name, username=username, password=password)
         jms_data_obj.import_all_input_files(filepath)

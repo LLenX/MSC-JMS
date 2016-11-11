@@ -276,7 +276,7 @@ function windowOnLoad(){
         .attr("class", success ? "error-message-head-ok" : "error-message-head")
         .appendTo($error_message);
         for (var error in res[str].message){
-            $("<p></p>").text(error + res[str].message[error]).appendTo($error_message);
+            $("<p></p>").text(res[str].message[error]).appendTo($error_message);
         }
     }
     //以下为功能性函数
