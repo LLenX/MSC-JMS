@@ -208,13 +208,10 @@ function windowOnLoad(){
         res = JSON.parse(res);
         console.log(res);
         var $error_message = $("#error-message");
-        res.predict = res.predict || {};
-        res.check   = res.check   || {};
-        res.analyze = res.analyze || {};
 
         $error_message.children().remove();
 
-        if (res.predict.success == false){
+        if (res.predict != undefined && res.predict.success == false){
             var $predict_message = $("<div></div>").attr("id", "predict-message");
             $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
             for (var error in res.predict.message){
@@ -223,7 +220,7 @@ function windowOnLoad(){
             $predict_message.appendTo($error_message);
         }
 
-        if (res.check.success == false){
+        if (res.check != undefined &&res.check.success == false){
             var $check_message = $("<div></div>").attr("id", "check-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
             for (var error in res.check.message){
@@ -232,7 +229,7 @@ function windowOnLoad(){
             $check_message.appendTo($error_message);
         }
 
-        if (res.analyze.success == false){
+        if (res.analyze != undefind && res.analyze.success == false){
             var $analyze_message = $("<div></div>").attr("id", "analyze-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
             for (var error in res.analyze.message){
@@ -240,15 +237,13 @@ function windowOnLoad(){
             }
             $analyze_message.appendTo($error_message);
         }
-
-        if (res.predict.success
-        &&  res.check.success
-        &&  res.analyze.success)
-            uploadParamSucceed();
-        else {
+        if (res.predict != undefined && res.predict.success == false 
+        ||  res.check   != undefined && res.check.success   == false
+        ||  res.analyze != undefined && res.analyze.success == false){
             $("#tip").text("计算失败.")
             .attr("class", "alert alert-danger");
         }
+        else uploadParamSucceed();
         
     }
 
