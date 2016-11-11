@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from JmsDAO import JmsDAO
+from database.JmsDAO import JmsDAO
 import os
 from EpredOption import *
 
@@ -17,7 +17,8 @@ dataHelper.prepare_input_files('D:\\data\\')
 
 # 这里调用EpredCaller运行epred
 # 另外Model和Rfile文件夹需要自行复制
-os.system(r'java -jar xxx.jar -i D:\data\ -o D:\output\ -p-area all -p-duration annual -p-year 2016 -rr')
+os.system(
+    r'java -jar xxx.jar -i D:\data\ -o D:\output\ -p-area all -p-duration annual -p-year 2016 -rr')
 
 dataHelper.collect_output_files('D:\\output\\')
 

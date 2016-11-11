@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import DatabaseHelper
+import jmsserver.database.DatabaseHelper as DatabaseHelper
 import xlrd
 
 """

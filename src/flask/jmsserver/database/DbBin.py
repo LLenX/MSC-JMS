@@ -1,6 +1,6 @@
 # coding: utf-8
 import mysql.connector
-import DatabaseHelper
+import jmsserver.database.DatabaseHelper as DatabaseHelper
 
 """
 一个可以把二进制文件和数据库互相读写的类

@@ -1,5 +1,6 @@
 import mysql.connector
-from JmsDataHelper import JmsDataHelper
+from .JmsDataHelper import JmsDataHelper
+import EpredOption
 
 """
 Jms Database Access Object
@@ -13,7 +14,8 @@ class JmsDAO:
 
     def __init__(self, db_name, username=USER_NAME, password=PASSWORD):
         JmsDAO.create_db_if_not_exists(db_name)
-        self.db_conn = mysql.connector.connect(host="localhost", user=username, passwd=password,
+        self.db_conn = mysql.connector.connect(host="localhost", user=username,
+                                               passwd=password,
                                                db=db_name,
                                                charset='utf8')
 
@@ -43,7 +45,9 @@ class JmsDAO:
 
     @staticmethod
     def create_db_if_not_exists(db_name):
-        database = mysql.connector.connect(host="localhost", user=JmsDAO.USER_NAME, passwd=JmsDAO.PASSWORD)
+        database = mysql.connector.connect(host="localhost",
+                                           user=JmsDAO.USER_NAME,
+                                           passwd=JmsDAO.PASSWORD)
         cursor = database.cursor()
         sql = 'CREATE DATABASE IF NOT EXISTS ' + db_name
         cursor.execute(sql)
