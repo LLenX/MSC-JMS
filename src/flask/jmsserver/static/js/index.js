@@ -189,7 +189,7 @@ function windowOnLoad(){
         //失败就在控制台显示"fail"。
         $("#tip").text("正在上传report,请耐心等候")
         .attr("class", "alert alert-info");
-        $("#choices").selectpicker("render");
+        selectDisable($("#choices"));
         $.ajax({
             type: "post",
             url: target_url_param,
@@ -211,7 +211,7 @@ function windowOnLoad(){
 
         $error_message.children().remove();
 
-        if (res.predict != undefined && res.predict.success == false){
+        if (res.predict && res.predict.success == false){
             var $predict_message = $("<div></div>").attr("id", "predict-message");
             $("<p></p>").text("预测出错！错误信息:").appendTo($predict_message);
             for (var error in res.predict.message){
@@ -220,7 +220,7 @@ function windowOnLoad(){
             $predict_message.appendTo($error_message);
         }
 
-        if (res.check != undefined &&res.check.success == false){
+        if (res.check && res.check.success == false){
             var $check_message = $("<div></div>").attr("id", "check-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($check_message);
             for (var error in res.check.message){
@@ -229,7 +229,7 @@ function windowOnLoad(){
             $check_message.appendTo($error_message);
         }
 
-        if (res.analyze != undefind && res.analyze.success == false){
+        if (res.analyze && res.analyze.success == false){
             var $analyze_message = $("<div></div>").attr("id", "analyze-message");
             $("<p></p>").text("检测出错！错误信息:").appendTo($analyze_message);
             for (var error in res.analyze.message){
@@ -237,9 +237,9 @@ function windowOnLoad(){
             }
             $analyze_message.appendTo($error_message);
         }
-        if (res.predict != undefined && res.predict.success == false 
-        ||  res.check   != undefined && res.check.success   == false
-        ||  res.analyze != undefined && res.analyze.success == false){
+        if (res.predict && res.predict.success == false 
+        ||  res.check  && res.check.success   == false
+        ||  res.analyze  && res.analyze.success == false){
             $("#tip").text("计算失败.")
             .attr("class", "alert alert-danger");
         }
@@ -248,7 +248,6 @@ function windowOnLoad(){
     }
 
     function uploadParamSucceed(){
-        $("#return-revise").selectpicker("refresh");
         addDownloadButton();
         window.open(target_url_revise);
         $("#tip").text("计算完成，请点击下载按钮下载，并可在弹出的修改页面中修改。若无弹出可能是窗口被拦截，请解除拦截")
@@ -275,7 +274,7 @@ function windowOnLoad(){
         .click(function(){
             $(this).remove();
         })
-        .appendTo("#panel-body");
+        .appendTo(".panel-body");
     }
     //以下为功能性函数
 
