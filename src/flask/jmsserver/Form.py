@@ -73,7 +73,7 @@ class Form:
 
     def predict_option(self):
         """
-        :return: a 2-tuple, first element is year, second is the option_set
+        :return: a 2-tuple, first element is option_set, second is year
                  None if the form doesn't request to predict
         """
         if not self.can_predict():
@@ -88,7 +88,7 @@ class Form:
 
     def check_option(self):
         """
-        :return: a 2-tuple, first element is year, second is the option_set
+        :return: a 2-tuple, first element is option_set, second is year
                  None if the form doesn't request to check
         """
         if not self.can_check():

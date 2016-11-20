@@ -32,6 +32,13 @@ def index():
     return flask.render_template('index.html')
 
 
+def _add_folder_file_to_zip(file_zip, file_folder_path):
+    file_names = os.listdir(file_folder_path)
+    for file_name in file_names:
+        file_path = os.path.join(file_folder_path, file_name)
+        file_zip.write(file_path, os.path.basename(file_path))
+
+
 def _add_report_to_zip(report_zip, task_option):
     report_subdir = {EpOp.TASK_PREDICT: 'Pred',
                      EpOp.TASK_PRECISION_CHECK: 'Check',
@@ -39,15 +46,7 @@ def _add_report_to_zip(report_zip, task_option):
 
     absolute_report_dir = os.path.join(
         jms_server.config['OUTPUT_REPORT_DIR'], report_subdir)
-    report_names = os.listdir(absolute_report_dir)
-    for report_name in report_names:
-        report_path = os.path.join(absolute_report_dir, report_name)
-        report_zip.write(report_path, os.path.basename(report_path))
-
-
-def _pack_reports(report_zip, report_subdirs):
-    for report_subdir in report_subdirs:
-        _add_report_to_zip(report_zip, report_subdir)
+    _add_folder_file_to_zip(report_zip, absolute_report_dir)
 
 
 def _ensure_directories():
@@ -70,15 +69,14 @@ def _perform_task(option_set, year, report_zip):
         EpOp.TASK_PRECISION_CHECK: 'check'}[task_option]
 
     task_result = {}
-    success = False
-    if caller.call(option_set, year) == 0:
-        success = True
+
+    success = caller.call(option_set, year) == 0
+    if success:
         _add_report_to_zip(report_zip, task_option)
-    else:
-        success = False
 
     task_result['success'] = success
     task_result['message'] = caller.get_log()
+
     return {task_name: task_result}, success
 
 
@@ -87,7 +85,6 @@ def do_prediction():
     _ensure_directories()
 
     result_json = {}
-    success = True
 
     with ZipFile(
             os.path.join(
