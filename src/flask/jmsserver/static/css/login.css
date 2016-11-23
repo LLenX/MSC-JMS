@@ -1,0 +1,27 @@
+body{
+	font-family: sans-serif;
+}
+
+
+#signin-panel{
+	width:300px;
+	margin:0 auto;
+}
+
+.panel-body{
+	width: 100%;
+}
+
+#submit{
+	margin-top: 10px;
+	margin-left: 20%;
+	width:60%;
+}
+
+i{
+	width:10px;
+}
+
+i.fa-sign-in{
+	margin-right:5px;
+}
