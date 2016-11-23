@@ -45,16 +45,22 @@ class Caller:
         return (cls.option_arg_map[area], cls.option_arg_map[duration],
                 cls.option_arg_map[time])
 
-    def __init__(self, jar_path, input_data_path, output_data_path):
+    def __init__(
+            self, jar_path, input_data_path, output_data_path, model_path,
+            rfile_path):
         """
         constructor of the caller
         :param jar_path: the absolute path to the jar file of the jms wrapper
         :param input_data_path: where the input data is located
         :param output_data_path: where the output file should be located
+        :param model_path: where the report template located
+        :param rfile_path: where the R sources located
         """
         self._jar_path = jar_path
         self._input_data_path = input_data_path
         self._output_data_path = output_data_path
+        self._model_path = model_path
+        self._rfile_path = rfile_path
 
         self._check_output_folder()
         self.clear_output_folder()
@@ -156,6 +162,6 @@ class Caller:
 
     def _invoke(self, *args):
         ret_status = 0
-        return os.system('java -jar %s -i %s -o %s ' % (
-            self._jar_path, self._input_data_path, self._output_data_path) +
-                         ' '.join(args))
+        return os.system('java -jar %s -i %s -o %s -model %s -rfile %s' % (
+            self._jar_path, self._input_data_path, self._output_data_path,
+            self._model_path, self._rfile_path) + ' '.join(args))
