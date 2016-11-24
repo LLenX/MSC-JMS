@@ -61,7 +61,6 @@
            -rr 自动重启R服务
  
            示例
-              java -jar xxx.jar -i e:/data/ -o e:/output/ -p-area all -p-year 2016 -p-duration
-  quarter -p-which 2
+              java -jar xxx.jar -i e:/data/ -o e:/output/ -p-area all -p-year 2016 -p-duration quarter -p-which 2
  
  
