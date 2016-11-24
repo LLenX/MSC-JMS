@@ -1,6 +1,6 @@
 import mysql.connector
-import DatabaseHelper
-from User import User
+import jmsserver.database.DatabaseHelper
+from .User import User
 
 
 class UserDao:
