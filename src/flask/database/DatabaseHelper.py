@@ -1,3 +1,5 @@
+import mysql.connector
+
 def drop_table_if_exists(db, table_name):
     """
     如果表存在则删除表
@@ -26,3 +28,11 @@ def create_table_if_not_exists(db, table_name, column_names, column_types=None):
             lambda column: '`' + column[0] + '` ' + column[1],
             zip(column_names, column_types))) + ')'
     cursor.execute(sql)
+
+
+def create_db_if_not_exists(db_name, username, password):
+    database = mysql.connector.connect(host="localhost", user=username, passwd=password)
+    cursor = database.cursor()
+    sql = 'CREATE DATABASE IF NOT EXISTS ' + db_name
+    cursor.execute(sql)
+    database.close()
