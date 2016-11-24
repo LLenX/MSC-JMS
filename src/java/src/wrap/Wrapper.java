@@ -17,6 +17,7 @@ import com.stardust.function.function;
 
 import fix.FileTool;
 import Epred.EPredMain;
+import Epred.Predictor;
 
 /**
  *
@@ -56,6 +57,16 @@ import Epred.EPredMain;
  *          -p-which 年度时该选项被忽略
  *          		 半年度时0为上半年，1为下半年
  *          		 季度时1~4为1~4季度
+ *          -p-modify 修改部分或全部预测值
+ *          		全社会预测时格式为 n1,n2,n3,...
+ *          		例如 123,456,789
+ *          		例如对2016的全社会预测中有后6个月份为预测值，那么123,456,789将修改7,8,9月份的值
+ *          		要保留一些月份预测值只需在对应位置填上-1，例如123,456,-1,789将修改7,8,10月份的值
+ *          
+ *          		分镇街预测时格式为 c(n1,n2,...),c(m1,m2,...),...
+ *          		例如c(123,456),c(),c(111,222,333,444)
+ *          		将按顺序对应输入数据表头的镇的数据修改，c()跳过该镇数据修改，-1跳过某个镇一个月的数据修改
+ *   
  *
  *          精度检验：
  *          -c-area
@@ -232,6 +243,10 @@ public class Wrapper {
                 throw new IllegalArgumentException("选项" + optionName + "的参数应该是整数");
             }
         }
+        
+        public boolean hasParamter(String optionName) {
+			return paramters.containsKey(optionName);
+		}
     }
 
     public static class TaskFactory {
@@ -240,6 +255,13 @@ public class Wrapper {
             @Override
             public boolean execute(EPredMain ePredMain) throws IOException {
                 boolean isAreaAll = getParamter("p-area").equals("all");
+                if(hasParamter("p-modify")){
+                	if(isAreaAll){
+                		Predictor.setAllPredModifyList(getParamter("p-modify"));
+                	}else{
+                		Predictor.setTownPredModifyList(getParamter("p-modify"));
+                	}
+                }
                 switch (getParamter("p-duration")) {
                     case "annual":
                         if (!(isAreaAll ? ePredMain.a_Y_pred(getParamterInt("p-year"))

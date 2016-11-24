@@ -1,5 +1,10 @@
 import mysql.connector
+<<<<<<< HEAD:src/flask/jmsserver/database/JmsDAO.py
 from .JmsDataHelper import JmsDataHelper
+=======
+from JmsDataHelper import JmsDataHelper
+import DatabaseHelper
+>>>>>>> Stardust:src/flask/database/JmsDAO.py
 
 """
 Jms Database Access Object
@@ -12,10 +17,10 @@ class JmsDAO:
     PASSWORD = 'password'
 
     def __init__(self, db_name, username=USER_NAME, password=PASSWORD):
-        JmsDAO.create_db_if_not_exists(db_name, username, password)
-        self.db_conn = mysql.connector.connect(
-            host="localhost", user=username, passwd=password, db=db_name,
-            charset='utf8')
+        DatabaseHelper.create_db_if_not_exists(db_name, username, password)
+        self.db_conn = mysql.connector.connect(host="localhost", user=username, passwd=password,
+                                               db=db_name,
+                                               charset='utf8')
 
     def get_data_helper(self, option_set):
         """
@@ -40,6 +45,7 @@ class JmsDAO:
         :return:
         """
         self.db_conn.close()
+<<<<<<< HEAD:src/flask/jmsserver/database/JmsDAO.py
 
     @staticmethod
     def create_db_if_not_exists(db_name, username, password):
@@ -49,3 +55,5 @@ class JmsDAO:
         sql = 'CREATE DATABASE IF NOT EXISTS ' + db_name
         cursor.execute(sql)
         database.close()
+=======
+>>>>>>> Stardust:src/flask/database/JmsDAO.py

@@ -3,6 +3,18 @@ import org.rosuda.REngine.*;
 import org.rosuda.REngine.Rserve.RConnection;
 
 public class Predictor {
+	
+	//XXX 不清真的使用了全局变量。管它呢
+	private	static String allPredModifyList = "", townPredModifyList = "";
+	
+	public static void setAllPredModifyList(String modifyList) {
+		allPredModifyList = modifyList;
+	}
+	
+	public static void setTownPredModifyList(String modifyList) {
+		townPredModifyList = modifyList;
+	}
+	
 
 	String dataadd,rfileadd,outputadd;
 //构造函数的细节在EpredMain类的66-69行
@@ -49,7 +61,7 @@ public class Predictor {
 			rc.eval("source('allPred.r')");
 //			System.out.println("allPred('"+dataadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+")");
 //			String cmd = "allPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+")";
-			rc.eval("allPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+")");
+			rc.eval("allPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+",list(" + allPredModifyList + "))");
 //			REXP xRexp = rc.parseAndEval("try(allPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+"),silent=TRUE)");
 //			System.out.println("cmd="+"try(allPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(needsmooth)+","+Integer.toString(numjump)+"),silent=TRUE)");
 			
@@ -71,8 +83,8 @@ public class Predictor {
 			rc.setStringEncoding("utf8");
 			rc.eval("setwd('"+rfileadd+"')");
 			rc.eval("source('townPred.r')");
-			System.out.println("townPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(numjump)+")");
-			rc.eval("townPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(numjump)+")");
+			System.out.println("townPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(numjump)+",list(" + townPredModifyList + "))");
+			rc.eval("townPred('"+dataadd+"','"+outputadd+"',"+Integer.toString(range)+","+Integer.toString(numjump)+",list(" + townPredModifyList + "))");
 			System.out.println("tpred load finished");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
