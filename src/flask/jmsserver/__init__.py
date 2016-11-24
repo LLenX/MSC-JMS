@@ -36,7 +36,7 @@ def _ensure_directory(dir_path):
 
 
 def _init_user_session(username):
-    _ensure_directory(jms_server.config['USER_FOLDER']);
+    _ensure_directory(jms_server.config['USER_FOLDER'])
 
     user_home = os.path.join(jms_server.config['USER_FOLDER'], username)
     flask.session['HOME'] = user_home

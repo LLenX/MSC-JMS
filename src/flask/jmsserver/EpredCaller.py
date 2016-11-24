@@ -162,6 +162,6 @@ class Caller:
 
     def _invoke(self, *args):
         ret_status = 0
-        return os.system('java -jar %s -i %s -o %s -model %s -rfile %s' % (
+        return os.system('java -jar %s -i %s -o %s -model %s -rfile %s ' % (
             self._jar_path, self._input_data_path, self._output_data_path,
             self._model_path, self._rfile_path) + ' '.join(args))
