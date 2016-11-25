@@ -1,5 +1,5 @@
 import mysql.connector
-import jmsserver.database.DatabaseHelper
+import jmsserver.database.DatabaseHelper as DatabaseHelper
 from .User import User
 
 

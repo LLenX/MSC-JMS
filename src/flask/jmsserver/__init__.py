@@ -4,6 +4,7 @@ import jmsserver.EpredOption as EpOp
 from zipfile import ZipFile
 import flask, os, json
 from jmsserver.database.JmsDAO import JmsDAO
+from jmsserver.database.UserDao import UserDao
 
 jms_server = flask.Flask(__name__)
 
@@ -66,6 +67,15 @@ def login():
     # flask.request.method == 'POST'
 
     # login validate username/password
+    user_database = UserDao(jms_server.config['DATABASE_NAME'],
+                            jms_server.config['DATABASE_USERNAME'],
+                            jms_server.config['DATABASE_PASSWORD'])
+
+    if user_database.get_user(
+            flask.request.form['username'],
+            flask.request.form['password']) is None:
+        # handle login fail
+        return '', 500
 
     flask.session['login'] = True
     flask.session['username'] = flask.request.form['username']
