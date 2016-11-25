@@ -42,6 +42,14 @@ TASK_ANALYZE = 0x3000
 
 TASK_MASK = 0xf000
 
+# predict method
+
+METHOD_NATURAL = 0x10000
+METHOD_MODIFY = 0x20000
+METHOD_SELECT = 0x30000
+
+METHOD_MASK = 0xf0000
+
 
 class InvalidOption(Exception):
     """
@@ -76,6 +84,13 @@ def get_task(option_set):
     extract the task in the option_set
     """
     return option_set & TASK_MASK
+
+def get_method(option_set):
+    """
+    extract the method in the option_set
+    :return:
+    """
+    return option_set & METHOD_MASK
 
 def is_valid(option_set):
     """

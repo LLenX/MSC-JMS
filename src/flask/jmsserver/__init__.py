@@ -30,11 +30,8 @@ def index():
 
 
 def _ensure_directory(dir_path):
-    try:
+    if not os.path.exists(dir_path):
         os.mkdir(dir_path)
-    except FileExistsError:
-        pass
-
 
 def _init_user_session(username):
     _ensure_directory(jms_server.config['USER_FOLDER'])
