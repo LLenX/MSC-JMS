@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"/>
+	</head>
+	<body>
+		<div class="panel panel-default" id="signin-panel">
+			<div class="panel-heading">
+				<i class="fa fa-sign-in" aria-hidden="true"></i>
+				<span id = "header">
+					登录界面
+				</span>
+			</div>
+
+			<div class="panel-body">
+				<div class="alert alert-info">
+					请输入用户名与密码
+				</div>
+				<form class="bs-example bs-example-form" id="login-form">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+						<input type="text" class="form-control" placeholder="username" name="username">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-lock fa-1x" aria-hidden="true"></i></span>
+						<input type="text" class="form-control" placeholder="password" name="password">
+					</div>
+					<button type="button" class="btn btn-primary" id="submit">提交</button>
+				</form>
+			</div>
+
+		</div>
+		
+		<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+	</body>
+</html>

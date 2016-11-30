@@ -1125,7 +1125,7 @@ public class EPredMain {
 	public boolean var_pred(int year) {
 		//0.清空文件夹结构
 		filestructure.deleteFile(new File(Data4R_Add+"Predict/var"));
-		filestructure.deleteFile(new File(Result_Add+"VARAna"));
+		filestructure.deleteFile(new File(Result_Add+"VarAna"));
 		//1.读入数据
 		int readInfo1,readInfo2;//检验读取是否出错
 		boolean cancheck = false;
@@ -1189,14 +1189,14 @@ public class EPredMain {
 		
 		//4.将数据读入类中
 		try {
-			resultstructure.varpred.get_rlt(Result_Add+"VARAna/", year);
+			resultstructure.varpred.get_rlt(Result_Add+"VarAna/", year);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			debugger.Output_err();
 			return false;
 		}
-		System.out.println("VARAna result have been set into result Structure");
+		System.out.println("VarAna result have been set into result Structure");
 		return true;
 		
 	}
@@ -1275,7 +1275,7 @@ public class EPredMain {
 			debugger.Output_err();
 			return false;
 		}
-		System.out.println("VARCheck result have been set into result Structure");
+		System.out.println("VarCheck result have been set into result Structure");
 		return true;
 	}
 	
