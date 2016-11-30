@@ -1,0 +1,5 @@
+{
+  "database_name": "jms",
+  "database_username": "root",
+  "data_path": "jmsserver/epred/input_data/"
+}

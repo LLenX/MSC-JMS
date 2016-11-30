@@ -1,0 +1,198 @@
+body {
+    background-color: rgb(255, 255, 240);
+}
+
+/*checkbox*/
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + .label-text {
+    color: rgb(247, 147, 30);
+    cursor: pointer;
+    clear: both;
+    font-size: 13px;
+}
+
+input[type="checkbox"] + .label-text:hover {
+    color: white;
+}
+
+input[type="checkbox"]:checked + .label-text {
+    color: white;
+}
+
+input[type="checkbox"] + .label-text:before {
+    font-family: "FontAwesome";
+    content: "\f096";
+    color: grey;
+    margin-right: 3px;
+
+}
+
+input[type="checkbox"] + .label-text:hover:before {
+    content: "\f096";
+    color: white;
+}
+
+input[type="checkbox"]:checked + .label-text:before {
+    content: "\f046";
+    color: white;
+}
+
+form {
+    margin-top: 10px;
+}
+
+/*checkbox*/
+
+/* panel */
+#panel {
+    display: inline-block;
+    position: relative;
+    width: 500px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.panel-body {
+    background-color: rgb(233, 233, 233);
+}
+
+.panel-body select {
+    color: rgb(66, 66, 66);
+}
+
+/* panel */
+
+/*error*/
+#error {
+    display: inline-block;
+    width: 300px;
+    height: 500px;
+    border: 1px solid black;
+    vertical-align: top;
+}
+
+#error-head {
+    display: block;
+    width: 100%;
+    height: 20%;
+    color: white;
+    text-align: center;
+    font-family: '微软雅黑';
+    font-size: 30px;
+    cursor: default;
+    margin: 0px;
+    background-color: rgb(106, 90, 140);
+    border: none;
+    padding: 0px;
+}
+
+#error-message {
+    height: 80%;
+    overflow: auto;
+    background-color: rgb(35, 35, 35);
+}
+
+#error-message p {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    color: white;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+#error-message p.error-message-head {
+    text-align: center;
+    color: red;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#error-message p.error-message-head:before {
+    font-family: "FontAwesome";
+    content: "\f06a";
+    margin-right: 5px;
+}
+
+#error-message p.error-message-head-ok {
+    text-align: center;
+    color: green;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#error-message p.error-message-head-ok:before {
+    font-family: "FontAwesome";
+    content: "\f00c";
+    margin-right: 5px;
+}
+
+#error-message::-webkit-scrollbar {
+    width: 10px;
+    background: none;
+}
+
+#error-message::-webkit-scrollbar-track {
+    background: none;
+    border: none;
+}
+
+#error-message::-webkit-scrollbar-track-piece:disabled {
+    display: none !important;
+}
+
+#error-message::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .25);
+    border: none;
+}
+
+#error-message::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .3);
+}
+
+#error-message p {
+    margin-top: -1px;
+    padding-top: 10px;
+    border-top: 1px solid #2e2e2e;
+}
+
+/*error*/
+
+#download-button:before {
+    font-family: "FontAwesome";
+    content: "\f019";
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#tip:before {
+    font-family: "FontAwesome";
+    content: "\f05a";
+    margin-right: 5px;
+}
+
+#loading {
+    display: none;
+}
+
+#choices:before {
+    font-family: "FontAwesome";
+    content: "\f093";
+    margin-right: 5px;
+}
+
+#error-head:before {
+    font-family: "FontAwesome";
+    content: "\f03a";
+    margin-right: 5px;
+}
+
+/*error*/
+
+
+
